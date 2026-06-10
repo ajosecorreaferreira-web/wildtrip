@@ -20,7 +20,7 @@
 
   /* ----------------------------------------------------------
      COLOR — Espacio oklch
-     Base: Azul marino Jungle (#0D1F4E → oklch(0.20 0.10 264))
+     Base: Azul marino Jungle — oklch(0.20 0.10 264)
      ---------------------------------------------------------- */
 
   /* Fondos */
@@ -34,7 +34,7 @@
   --popover-foreground: oklch(0.12 0.04 264);
 
   /* Primario — Azul marino Jungle */
-  --primary:            oklch(0.20 0.10 264);    /* #0D1F4E */
+  --primary:            oklch(0.20 0.10 264);    /* Azul marino Jungle */
   --primary-foreground: oklch(0.98 0.005 264);   /* Casi blanco */
   --primary-hover:      oklch(0.27 0.12 264);    /* Un paso más claro para hover */
   --primary-text:       oklch(0.20 0.10 264);    /* Para texto azul sobre fondo claro — ratio >7:1 */
@@ -327,7 +327,6 @@
 
 html {
   font-family: var(--font-sans);
-  font-size: 16px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
