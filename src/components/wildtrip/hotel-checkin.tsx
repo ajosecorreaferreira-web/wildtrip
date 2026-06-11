@@ -1,7 +1,6 @@
 import * as React from 'react'
 import { Hotel, QrCode, CheckCircle, Clock, ChevronRight, MapPin, Calendar } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import { Button } from '@/components/ui/button'
 
 type CheckinState = 'confirmed' | 'available' | 'checked_in'
 
