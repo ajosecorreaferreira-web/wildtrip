@@ -116,7 +116,7 @@ const MOCK_EXPENSES = [
   },
 ]
 
-// ─── Páginas ──────────────────────────────────────────────────────────────────
+// ─── App ──────────────────────────────────────────────────────────────────────
 
 function noop() {}
 
@@ -128,7 +128,15 @@ function App() {
           <Routes>
             <Route path="/" element={<Navigate to="/traveler" replace />} />
 
-            <Route path="/traveler" element={<TravelerHome state="empty" className="p-4 max-w-md mx-auto pt-8" />} />
+            <Route
+              path="/traveler"
+              element={
+                <TravelerHome
+                  state="empty"
+                  className="p-4 max-w-md mx-auto pt-8"
+                />
+              }
+            />
 
             <Route
               path="/traveler/new-trip"
