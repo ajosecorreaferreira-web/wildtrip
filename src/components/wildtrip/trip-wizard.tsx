@@ -12,6 +12,7 @@ import {
   Loader2,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { Button } from '@/components/ui/button'
 
 export interface WizardManager {
   id: string
@@ -434,7 +435,7 @@ function TripWizard({ managers, onSubmit, onCancel, className }: TripWizardProps
         style={{ boxShadow: 'var(--shadow-lg)' }}
       >
         <div className="size-16 rounded-full bg-[var(--success-muted)] flex items-center justify-center">
-          <Check size={28} strokeWidth={1.5} className="text-[var(--success-text)]" />
+          <Check size={32} strokeWidth={1.5} className="text-[var(--success-text)]" />
         </div>
         <div>
           <p className="text-lg font-semibold text-[var(--success-text)]">Viaje enviado.</p>
@@ -443,17 +444,9 @@ function TripWizard({ managers, onSubmit, onCancel, className }: TripWizardProps
             {managers.find((m) => m.id === data.managerId)?.name ?? 'tu aprobador'}.
           </p>
         </div>
-        <button
-          onClick={onCancel}
-          className={cn(
-            'inline-flex items-center justify-center gap-2',
-            'rounded-xl min-h-[44px] px-8 text-sm font-medium',
-            'bg-primary text-primary-foreground hover:bg-[var(--primary-hover)]',
-            'transition-colors duration-200'
-          )}
-        >
+        <Button onClick={onCancel} className="rounded-xl min-h-[44px] px-8">
           Cerrar
-        </button>
+        </Button>
       </div>
     )
   }

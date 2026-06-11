@@ -8,8 +8,8 @@ import {
   Plane,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import { TripTimeline } from './trip-timeline'
-import type { TimelineDay } from './trip-timeline'
+import { TripTimeline } from '@/components/wildtrip/trip-timeline'
+import type { TimelineDay } from '@/components/wildtrip/trip-timeline'
 
 type HomeState = 'empty' | 'upcoming' | 'in_progress' | 'pending_expenses'
 

@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { Check, X, Loader2, Calendar, Wallet } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import { BudgetMeter } from './budget-meter'
+import { BudgetMeter } from '@/components/wildtrip/budget-meter'
 
 type QuickApprovalState = 'idle' | 'rejecting' | 'loading' | 'approved' | 'rejected'
 

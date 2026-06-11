@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { Info, AlertTriangle, CheckCircle, AlertCircle, X } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { Button } from '@/components/ui/button'
 
 type BannerType = 'info' | 'warning' | 'success' | 'urgent'
 
@@ -83,25 +84,29 @@ function NotificationBanner({
             <p className="text-sm text-muted-foreground mt-0.5">{description}</p>
           )}
           {action && (
-            <button
+            <Button
+              variant="ghost"
               onClick={action.onClick}
+              aria-label={action.label}
               className={cn(
-                'text-sm font-medium mt-1 underline underline-offset-2',
+                'text-sm font-medium mt-1 px-0 h-auto underline underline-offset-2 hover:bg-transparent',
                 config.titleClass
               )}
             >
               {action.label}
-            </button>
+            </Button>
           )}
         </div>
         {dismissible && (
-          <button
+          <Button
+            variant="ghost"
+            size="icon"
             onClick={() => setDismissed(true)}
-            className="size-8 rounded-xl flex items-center justify-center text-muted-foreground hover:bg-muted transition-colors duration-150 shrink-0"
-            aria-label="Cerrar"
+            aria-label="Cerrar notificación"
+            className="rounded-xl text-muted-foreground hover:bg-muted shrink-0 [&_svg]:size-auto"
           >
             <X size={20} strokeWidth={1.5} />
-          </button>
+          </Button>
         )}
       </div>
     </div>

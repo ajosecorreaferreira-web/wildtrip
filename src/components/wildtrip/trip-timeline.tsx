@@ -10,8 +10,8 @@ import {
   Plus,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import { StatusBadge } from './status-badge'
-import type { StatusBadgeStatus } from './status-badge'
+import { StatusBadge } from '@/components/wildtrip/status-badge'
+import type { StatusBadgeStatus } from '@/components/wildtrip/status-badge'
 
 type EventType = 'flight' | 'cabify' | 'hotel' | 'other'
 
@@ -118,6 +118,7 @@ function EventRow({ event }: { event: TimelineEvent }) {
         {event.ctaLabel && event.onCta && (
           <button
             onClick={event.onCta}
+            aria-label={event.ctaLabel}
             className="mt-2 inline-flex items-center gap-1.5 text-xs font-semibold text-[var(--accent-text)] hover:underline underline-offset-2 min-h-[44px] transition-opacity duration-150"
           >
             <Plus size={16} strokeWidth={1.5} />

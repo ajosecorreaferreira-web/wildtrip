@@ -1,6 +1,8 @@
 import * as React from 'react'
 import { Filter, CheckCircle, Clock, Wallet, Users } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { Button } from '@/components/ui/button'
+import { Badge } from '@/components/ui/badge'
 import { QuickApproval } from './quick-approval'
 import type { QuickApprovalProps } from './quick-approval'
 

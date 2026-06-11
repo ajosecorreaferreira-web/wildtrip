@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { Car, MapPin, Clock, CheckCircle, Loader2, Navigation } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { Button } from '@/components/ui/button'
 
 type TrackerState = 'requesting' | 'coming' | 'en_route' | 'arrived'
 
@@ -22,7 +23,7 @@ function RequestingState() {
   return (
     <div className="flex flex-col items-center gap-4 py-8 animate-fade-in">
       <div className="size-16 rounded-full bg-[var(--accent-soft)] flex items-center justify-center">
-        <Loader2 size={28} strokeWidth={1.5} className="text-[var(--accent-text)] animate-spin" />
+        <Loader2 size={32} strokeWidth={1.5} className="text-[var(--accent-text)] animate-spin" />
       </div>
       <div className="text-center">
         <p className="text-sm font-semibold text-foreground">Buscando conductor...</p>
@@ -116,24 +117,16 @@ function ArrivedState({
   return (
     <div className="flex flex-col items-center gap-5 py-6 animate-success-pop">
       <div className="size-16 rounded-full bg-[var(--success-muted)] flex items-center justify-center">
-        <CheckCircle size={28} strokeWidth={1.5} className="text-[var(--success-text)]" />
+        <CheckCircle size={32} strokeWidth={1.5} className="text-[var(--success-text)]" />
       </div>
       <div className="text-center">
         <p className="text-base font-semibold text-[var(--success-text)]">Has llegado.</p>
         <p className="text-sm text-muted-foreground mt-1">{destination}</p>
       </div>
       {onArrived && (
-        <button
-          onClick={onArrived}
-          className={cn(
-            'inline-flex items-center justify-center',
-            'rounded-xl min-h-[44px] px-8 text-sm font-medium',
-            'bg-primary text-primary-foreground hover:bg-[var(--primary-hover)]',
-            'transition-colors duration-200'
-          )}
-        >
+        <Button onClick={onArrived} className="rounded-xl min-h-[44px] px-8">
           Cerrar
-        </button>
+        </Button>
       )}
     </div>
   )

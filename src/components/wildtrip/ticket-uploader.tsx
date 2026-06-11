@@ -11,6 +11,7 @@ import {
   Sparkles,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { Button } from '@/components/ui/button'
 
 type UploaderStep = 'camera' | 'ocr' | 'confirm' | 'associate' | 'success'
 
@@ -338,7 +339,7 @@ function SuccessStep({ onDone }: { onDone: () => void }) {
   return (
     <div className="flex flex-col items-center gap-5 py-8 animate-success-pop">
       <div className="size-16 rounded-full bg-[var(--success-muted)] flex items-center justify-center">
-        <Receipt size={28} strokeWidth={1.5} className="text-[var(--success-text)]" />
+        <Receipt size={32} strokeWidth={1.5} className="text-[var(--success-text)]" />
       </div>
       <div className="text-center space-y-1">
         <p className="text-base font-semibold text-[var(--success-text)]">Ticket añadido.</p>
@@ -431,12 +432,15 @@ function TicketUploader({ trips, onComplete, onCancel, className }: TicketUpload
           </h2>
         </div>
         {onCancel && step !== 'success' && (
-          <button
+          <Button
+            variant="ghost"
+            size="icon"
             onClick={onCancel}
-            className="size-8 rounded-xl flex items-center justify-center text-muted-foreground hover:bg-muted transition-colors duration-150"
+            aria-label="Cancelar"
+            className="size-8 rounded-xl text-muted-foreground"
           >
             <X size={20} strokeWidth={1.5} />
-          </button>
+          </Button>
         )}
       </div>
 

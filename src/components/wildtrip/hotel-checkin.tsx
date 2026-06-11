@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { Hotel, QrCode, CheckCircle, Clock, ChevronRight, MapPin, Calendar } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { Button } from '@/components/ui/button'
 
 type CheckinState = 'confirmed' | 'available' | 'checked_in'
 
@@ -45,7 +46,7 @@ function QRPlaceholder({ code }: { code: string }) {
   return (
     <div className="flex flex-col items-center gap-3 py-4">
       <div className="size-40 rounded-2xl bg-muted flex items-center justify-center border-2 border-dashed border-border">
-        <QrCode size={64} strokeWidth={1.5} className="text-foreground opacity-50" />
+        <QrCode size={48} strokeWidth={1.5} className="text-foreground opacity-50" />
       </div>
       <div className="text-center">
         <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">

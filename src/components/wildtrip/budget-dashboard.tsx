@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { Download, TrendingUp, Users, Globe } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import { BudgetMeter } from './budget-meter'
+import { BudgetMeter } from '@/components/wildtrip/budget-meter'
 
 type DashboardView = 'consultant' | 'manager' | 'finance'
 

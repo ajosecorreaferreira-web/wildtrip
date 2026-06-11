@@ -1,5 +1,6 @@
 import { TrendingUp } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { Badge } from '@/components/ui/badge'
 
 export interface BudgetMeterProps {
   spent: number
@@ -66,7 +67,11 @@ function BudgetMeter({
       </div>
 
       {showPercent && (
-        <p className={cn('text-xs text-right font-medium', textColor)}>{percent}% usado</p>
+        <div className="flex justify-end">
+          <Badge className={cn('text-xs font-medium border-0 bg-transparent px-0 py-0', textColor)}>
+            {percent}% usado
+          </Badge>
+        </div>
       )}
     </div>
   )
