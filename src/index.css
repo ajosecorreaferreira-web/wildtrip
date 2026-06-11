@@ -2,255 +2,235 @@
    WILDTRIP — Design System Tokens
    Arquetipo: Explorador + Forajido + toque Creador
    Stack: React + Vite + TypeScript + Tailwind CSS v4 + shadcn/ui
-   Versión: 1.0 — Junio 2026
+   Versión: 1.1 — Junio 2026 — Fix Tailwind v4 @theme
    ============================================================ */
 
 @import "@fontsource-variable/plus-jakarta-sans";
 @import "@fontsource/dm-serif-display";
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
 /* ============================================================
-   LIGHT MODE
+   TAILWIND v4 — @theme
+   Mapea los tokens CSS a clases de Tailwind.
+   En v4 NO existe tailwind.config.ts — todo va aquí.
+   ============================================================ */
+
+@theme {
+
+  /* --- Colores --- */
+  --color-background:             oklch(0.98 0.005 264);
+  --color-foreground:             oklch(0.12 0.04 264);
+
+  --color-card:                   oklch(1 0 0);
+  --color-card-foreground:        oklch(0.12 0.04 264);
+
+  --color-popover:                oklch(1 0 0);
+  --color-popover-foreground:     oklch(0.12 0.04 264);
+
+  --color-primary:                oklch(0.20 0.10 264);
+  --color-primary-foreground:     oklch(0.98 0.005 264);
+
+  --color-secondary:              oklch(0.94 0.02 264);
+  --color-secondary-foreground:   oklch(0.20 0.10 264);
+
+  --color-muted:                  oklch(0.94 0.01 264);
+  --color-muted-foreground:       oklch(0.50 0.03 264);
+
+  --color-accent:                 oklch(0.55 0.18 162);
+  --color-accent-foreground:      oklch(1 0 0);
+  --color-accent-soft:            oklch(0.94 0.05 162);
+  --color-accent-text:            oklch(0.35 0.13 152);
+
+  --color-destructive:            oklch(0.577 0.245 27);
+  --color-destructive-foreground: oklch(1 0 0);
+  --color-destructive-muted:      oklch(0.96 0.04 27);
+
+  --color-success:                oklch(0.55 0.15 162);
+  --color-success-foreground:     oklch(1 0 0);
+  --color-success-muted:          oklch(0.94 0.05 162);
+  --color-success-text:           oklch(0.35 0.13 152);
+
+  --color-warning:                oklch(0.65 0.15 75);
+  --color-warning-foreground:     oklch(1 0 0);
+  --color-warning-muted:          oklch(0.97 0.04 75);
+  --color-warning-text:           oklch(0.45 0.10 75);
+
+  --color-info:                   oklch(0.45 0.12 264);
+  --color-info-foreground:        oklch(1 0 0);
+  --color-info-muted:             oklch(0.94 0.04 264);
+
+  --color-border:                 oklch(0.88 0.02 264);
+  --color-input:                  oklch(0.88 0.02 264);
+  --color-ring:                   oklch(0.55 0.18 162);
+
+  --color-sidebar:                oklch(0.20 0.10 264);
+  --color-sidebar-foreground:     oklch(0.90 0.02 264);
+  --color-sidebar-primary:        oklch(0.55 0.18 162);
+  --color-sidebar-primary-foreground: oklch(0.12 0.04 264);
+  --color-sidebar-accent:         oklch(0.28 0.10 264);
+  --color-sidebar-accent-foreground: oklch(0.90 0.02 264);
+  --color-sidebar-border:         oklch(0.28 0.08 264);
+
+  --color-chart-1:                oklch(0.55 0.18 162);
+  --color-chart-2:                oklch(0.20 0.10 264);
+  --color-chart-3:                oklch(0.65 0.15 75);
+  --color-chart-4:                oklch(0.65 0.18 320);
+  --color-chart-5:                oklch(0.577 0.245 27);
+
+  /* --- Tipografía --- */
+  --font-sans:    'Plus Jakarta Sans Variable', system-ui, -apple-system, sans-serif;
+  --font-display: 'DM Serif Display', Georgia, serif;
+  --font-mono:    'JetBrains Mono', 'Fira Code', monospace;
+
+  /* --- Border radius --- */
+  --radius:      0.75rem;
+  --radius-sm:   0.5rem;
+  --radius-md:   0.75rem;
+  --radius-lg:   1rem;
+  --radius-xl:   1.5rem;
+  --radius-full: 999px;
+
+  --border-radius-sm:   0.5rem;
+  --border-radius:      0.75rem;
+  --border-radius-md:   0.75rem;
+  --border-radius-lg:   1rem;
+  --border-radius-xl:   1.5rem;
+  --border-radius-2xl:  2rem;
+  --border-radius-full: 9999px;
+
+  /* --- Sombras --- */
+  --shadow-sm: 0 1px 3px oklch(0.20 0.10 264 / 0.08), 0 1px 2px oklch(0.20 0.10 264 / 0.06);
+  --shadow-md: 0 4px 12px oklch(0.20 0.10 264 / 0.10), 0 2px 4px oklch(0.20 0.10 264 / 0.06);
+  --shadow-lg: 0 8px 24px oklch(0.20 0.10 264 / 0.12), 0 4px 8px oklch(0.20 0.10 264 / 0.08);
+  --shadow-xl: 0 16px 40px oklch(0.20 0.10 264 / 0.14), 0 8px 16px oklch(0.20 0.10 264 / 0.08);
+
+  /* --- Animaciones --- */
+  --animate-fade-in:      wt-fade-in 300ms cubic-bezier(0, 0, 0.2, 1) forwards;
+  --animate-page-enter:   wt-page-enter 450ms cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  --animate-success-pop:  wt-success-pop 650ms cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  --animate-spin:         wt-spin 1s linear infinite;
+
+  @keyframes wt-fade-in {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes wt-page-enter {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes wt-success-pop {
+    0%   { opacity: 0; transform: scale(0.85); }
+    60%  { transform: scale(1.06); }
+    100% { opacity: 1; transform: scale(1); }
+  }
+  @keyframes wt-spin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+  @keyframes wt-list-item {
+    from { opacity: 0; transform: translateX(-8px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+}
+
+/* ============================================================
+   CSS CUSTOM PROPERTIES — para uso directo con var()
+   Los componentes usan var(--accent-soft), var(--primary-hover), etc.
    ============================================================ */
 
 :root {
+  --background:         oklch(0.98 0.005 264);
+  --foreground:         oklch(0.12 0.04 264);
 
-  /* ----------------------------------------------------------
-     COLOR — Espacio oklch
-     Base: Azul marino Jungle — oklch(0.20 0.10 264)
-     ---------------------------------------------------------- */
-
-  /* Fondos */
-  --background:         oklch(0.98 0.005 264);   /* Blanco con toque azul frío */
-  --foreground:         oklch(0.12 0.04 264);    /* Azul marino oscuro — no negro puro */
-
-  /* Superficies */
   --card:               oklch(1 0 0);
   --card-foreground:    oklch(0.12 0.04 264);
   --popover:            oklch(1 0 0);
   --popover-foreground: oklch(0.12 0.04 264);
 
-  /* Primario — Azul marino Jungle */
-  --primary:            oklch(0.20 0.10 264);    /* Azul marino Jungle */
-  --primary-foreground: oklch(0.98 0.005 264);   /* Casi blanco */
-  --primary-hover:      oklch(0.27 0.12 264);    /* Un paso más claro para hover */
-  --primary-text:       oklch(0.20 0.10 264);    /* Para texto azul sobre fondo claro — ratio >7:1 */
+  --primary:            oklch(0.20 0.10 264);
+  --primary-foreground: oklch(0.98 0.005 264);
+  --primary-hover:      oklch(0.27 0.12 264);
+  --primary-text:       oklch(0.20 0.10 264);
 
-  /* Secundario — Azul medio, acción secundaria */
-  --secondary:          oklch(0.94 0.02 264);    /* Azul muy suave */
+  --secondary:          oklch(0.94 0.02 264);
   --secondary-foreground: oklch(0.20 0.10 264);
 
-  /* Muted */
   --muted:              oklch(0.94 0.01 264);
-  --muted-foreground:   oklch(0.50 0.03 264);    /* Gris azulado */
+  --muted-foreground:   oklch(0.50 0.03 264);
 
-  /* Accent — Verde explorador, el toque Creador */
-  --accent:             oklch(0.55 0.18 162);    /* Verde selva — coherente con "Jungle" */
+  --accent:             oklch(0.55 0.18 162);
   --accent-foreground:  oklch(1 0 0);
-  --accent-soft:        oklch(0.94 0.05 162);    /* Verde muy suave para fondos */
-  --accent-text:        oklch(0.35 0.13 152);    /* Verde oscuro para texto — ratio >4.5:1 */
+  --accent-soft:        oklch(0.94 0.05 162);
+  --accent-text:        oklch(0.35 0.13 152);
 
-  /* Semánticos */
-  --destructive:        oklch(0.577 0.245 27);   /* Rojo */
+  --destructive:        oklch(0.577 0.245 27);
   --destructive-foreground: oklch(1 0 0);
   --destructive-muted:  oklch(0.96 0.04 27);
 
-  --success:            oklch(0.55 0.15 162);    /* Verde — mismo hue que accent */
+  --success:            oklch(0.55 0.15 162);
   --success-foreground: oklch(1 0 0);
   --success-muted:      oklch(0.94 0.05 162);
   --success-text:       oklch(0.35 0.13 152);
 
-  --warning:            oklch(0.65 0.15 75);     /* Ámbar */
+  --warning:            oklch(0.65 0.15 75);
   --warning-foreground: oklch(1 0 0);
   --warning-muted:      oklch(0.97 0.04 75);
   --warning-text:       oklch(0.45 0.10 75);
 
-  --info:               oklch(0.45 0.12 264);    /* Azul medio */
+  --info:               oklch(0.45 0.12 264);
   --info-foreground:    oklch(1 0 0);
   --info-muted:         oklch(0.94 0.04 264);
 
-  /* Bordes e inputs */
-  --border:             oklch(0.88 0.02 264);    /* Azul muy suave */
+  --border:             oklch(0.88 0.02 264);
   --input:              oklch(0.88 0.02 264);
-  --ring:               oklch(0.55 0.18 162);    /* Verde accent para focus — diferenciador */
+  --ring:               oklch(0.55 0.18 162);
 
-  /* Sidebar */
-  --sidebar:            oklch(0.20 0.10 264);    /* Azul marino — sidebar oscura como Jungle */
+  --sidebar:            oklch(0.20 0.10 264);
   --sidebar-foreground: oklch(0.90 0.02 264);
-  --sidebar-primary:    oklch(0.55 0.18 162);    /* Verde accent como item activo */
+  --sidebar-primary:    oklch(0.55 0.18 162);
   --sidebar-primary-foreground: oklch(0.12 0.04 264);
-  --sidebar-accent:     oklch(0.28 0.10 264);    /* Hover en sidebar */
+  --sidebar-accent:     oklch(0.28 0.10 264);
   --sidebar-accent-foreground: oklch(0.90 0.02 264);
   --sidebar-border:     oklch(0.28 0.08 264);
   --sidebar-ring:       oklch(0.55 0.18 162);
 
-  /* Charts */
-  --chart-1: oklch(0.55 0.18 162);   /* Verde Jungle — primero */
-  --chart-2: oklch(0.20 0.10 264);   /* Azul marino */
-  --chart-3: oklch(0.65 0.15 75);    /* Ámbar */
-  --chart-4: oklch(0.65 0.18 320);   /* Púrpura */
-  --chart-5: oklch(0.577 0.245 27);  /* Rojo */
+  --chart-1: oklch(0.55 0.18 162);
+  --chart-2: oklch(0.20 0.10 264);
+  --chart-3: oklch(0.65 0.15 75);
+  --chart-4: oklch(0.65 0.18 320);
+  --chart-5: oklch(0.577 0.245 27);
 
-  /* ----------------------------------------------------------
-     BORDER RADIUS
-     Explorador: formas con carácter, no sharp ni blandas
-     ---------------------------------------------------------- */
-  --radius:      0.75rem;   /* 12px — componentes principales */
-  --radius-sm:   0.5rem;    /* 8px */
-  --radius-md:   0.75rem;   /* 12px */
-  --radius-lg:   1rem;      /* 16px — cards grandes */
-  --radius-xl:   1.5rem;    /* 24px — modales, sheets */
-  --radius-full: 999px;     /* Pill — badges, chips, tags */
+  --radius:      0.75rem;
+  --radius-sm:   0.5rem;
+  --radius-md:   0.75rem;
+  --radius-lg:   1rem;
+  --radius-xl:   1.5rem;
+  --radius-full: 999px;
 
-  /* ----------------------------------------------------------
-     TIPOGRAFÍA
-     Display: DM Serif Display — titulares editoriales
-     Sans: Plus Jakarta Sans Variable — UI, cuerpo, labels
-     ---------------------------------------------------------- */
   --font-sans:    'Plus Jakarta Sans Variable', system-ui, -apple-system, sans-serif;
   --font-display: 'DM Serif Display', Georgia, serif;
   --font-mono:    'JetBrains Mono', 'Fira Code', monospace;
 
-  /* Escala — ratio 1.25 (Major Third) */
-  --text-xs:   0.75rem;    /* 12px */
-  --text-sm:   0.875rem;   /* 14px */
-  --text-base: 1rem;       /* 16px */
-  --text-lg:   1.125rem;   /* 18px */
-  --text-xl:   1.25rem;    /* 20px */
-  --text-2xl:  1.5rem;     /* 24px */
-  --text-3xl:  1.875rem;   /* 30px */
-  --text-4xl:  2.25rem;    /* 36px */
-  --text-5xl:  3rem;       /* 48px */
-  --text-6xl:  3.75rem;    /* 60px */
-
-  /* Pesos */
-  --font-normal:   400;
-  --font-medium:   500;
-  --font-semibold: 600;
-  --font-bold:     700;
-  --font-extrabold: 800;
-
-  /* Line heights */
-  --leading-none:    1;
-  --leading-tight:   1.2;
-  --leading-snug:    1.375;
-  --leading-normal:  1.5;
-  --leading-relaxed: 1.625;
-
-  /* Letter spacing */
-  --tracking-tight:   -0.025em;
-  --tracking-normal:  0em;
-  --tracking-wide:    0.025em;
-  --tracking-wider:   0.05em;
-  --tracking-widest:  0.1em;
-
-  /* ----------------------------------------------------------
-     ESPACIADO — Base 4px
-     ---------------------------------------------------------- */
-  --space-1:   0.25rem;   /* 4px */
-  --space-2:   0.5rem;    /* 8px */
-  --space-3:   0.75rem;   /* 12px */
-  --space-4:   1rem;      /* 16px */
-  --space-5:   1.25rem;   /* 20px */
-  --space-6:   1.5rem;    /* 24px */
-  --space-8:   2rem;      /* 32px */
-  --space-10:  2.5rem;    /* 40px */
-  --space-12:  3rem;      /* 48px */
-  --space-16:  4rem;      /* 64px */
-  --space-20:  5rem;      /* 80px */
-  --space-24:  6rem;      /* 96px */
-
-  /* Componentes — Densidad media (mobile-first) */
-  --btn-height-sm:      32px;
-  --btn-height-base:    40px;   /* Más alto que estándar — área táctil móvil */
-  --btn-height-lg:      48px;
-  --btn-padding-x-sm:   0.75rem;
-  --btn-padding-x-base: 1.25rem;
-  --btn-padding-x-lg:   1.5rem;
-  --btn-gap:            0.5rem;
-
-  --input-height-sm:    36px;
-  --input-height-base:  44px;   /* 44px mínimo táctil — WCAG */
-  --input-height-lg:    52px;
-  --input-padding-x:    1rem;
-
-  --card-padding-sm:    1rem;
-  --card-padding-base:  1.25rem;
-  --card-padding-lg:    1.5rem;
-
-  /* Grid */
-  --container-max:      1280px;
-  --container-padding:  2rem;
-  --grid-gap:           1.5rem;
-
-  /* ----------------------------------------------------------
-     SOMBRAS
-     Explorador: sombras con tinte azul marino — propias, no genéricas
-     ---------------------------------------------------------- */
-  --shadow-sm:  0 1px 3px oklch(0.20 0.10 264 / 0.08),
-                0 1px 2px oklch(0.20 0.10 264 / 0.06);
-  --shadow-md:  0 4px 12px oklch(0.20 0.10 264 / 0.10),
-                0 2px 4px  oklch(0.20 0.10 264 / 0.06);
-  --shadow-lg:  0 8px 24px oklch(0.20 0.10 264 / 0.12),
-                0 4px 8px  oklch(0.20 0.10 264 / 0.08);
-  --shadow-xl:  0 16px 40px oklch(0.20 0.10 264 / 0.14),
-                0 8px 16px  oklch(0.20 0.10 264 / 0.08);
-
-  /* Glow verde para momentos de éxito / estados activos */
+  --shadow-sm:  0 1px 3px oklch(0.20 0.10 264 / 0.08), 0 1px 2px oklch(0.20 0.10 264 / 0.06);
+  --shadow-md:  0 4px 12px oklch(0.20 0.10 264 / 0.10), 0 2px 4px oklch(0.20 0.10 264 / 0.06);
+  --shadow-lg:  0 8px 24px oklch(0.20 0.10 264 / 0.12), 0 4px 8px oklch(0.20 0.10 264 / 0.08);
+  --shadow-xl:  0 16px 40px oklch(0.20 0.10 264 / 0.14), 0 8px 16px oklch(0.20 0.10 264 / 0.08);
   --glow-accent: 0 0 20px oklch(0.55 0.18 162 / 0.25);
 
-  /* ----------------------------------------------------------
-     MOTION
-     Base: rápido y eficiente (Explorador)
-     Momentos especiales: expresivo con spring (Forajido / Creador)
-     ---------------------------------------------------------- */
-
-  /* Duraciones base — rápidas */
   --duration-instant:  0ms;
   --duration-fast:     100ms;
   --duration-base:     180ms;
   --duration-slow:     300ms;
   --duration-slower:   450ms;
-  --duration-dramatic: 650ms;   /* Solo para momentos de éxito */
+  --duration-dramatic: 650ms;
 
-  /* Easings funcionales */
   --ease-default:  cubic-bezier(0.4, 0, 0.2, 1);
   --ease-out:      cubic-bezier(0, 0, 0.2, 1);
   --ease-in:       cubic-bezier(0.4, 0, 1, 1);
-
-  /* Easings de personalidad — el Forajido tiene overshoot */
-  --ease-spring:   cubic-bezier(0.175, 0.885, 0.32, 1.275);  /* Momentos de éxito */
-  --ease-bounce:   cubic-bezier(0.34, 1.56, 0.64, 1);        /* Celebraciones */
-  --ease-elegant:  cubic-bezier(0.25, 0.46, 0.45, 0.94);     /* Transiciones suaves */
-
-  /* Hover — lift sutil */
-  --hover-lift:  -3px;
-  --hover-scale: 1.02;
-
-  /* Stagger para listas */
-  --stagger-sm: 40ms;
-  --stagger-md: 60ms;
-
-  /* ----------------------------------------------------------
-     ICONOGRAFÍA — Lucide React
-     ---------------------------------------------------------- */
-  --icon-xs:     12px;
-  --icon-sm:     16px;
-  --icon-base:   20px;   /* Default más grande — mobile-first */
-  --icon-md:     24px;
-  --icon-lg:     32px;
-  --icon-xl:     48px;
-  --icon-stroke: 1.5;
-  --icon-color:  currentColor;
-
-  /* ----------------------------------------------------------
-     SONIDO — OFF por defecto (entornos de oficina)
-     ---------------------------------------------------------- */
-  --sound-enabled: 0;    /* 0 = off, 1 = on */
-  --sound-volume:  0.25; /* 25% cuando esté activo */
+  --ease-spring:   cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  --ease-bounce:   cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-elegant:  cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 /* ============================================================
@@ -258,16 +238,16 @@
    ============================================================ */
 
 .dark {
-  --background:         oklch(0.10 0.04 264);    /* Azul muy oscuro — no negro puro */
-  --foreground:         oklch(0.94 0.02 264);    /* Blanco azulado */
+  --background:         oklch(0.10 0.04 264);
+  --foreground:         oklch(0.94 0.02 264);
 
   --card:               oklch(0.15 0.05 264);
   --card-foreground:    oklch(0.94 0.02 264);
   --popover:            oklch(0.15 0.05 264);
   --popover-foreground: oklch(0.94 0.02 264);
 
-  --primary:            oklch(0.55 0.18 162);    /* Verde accent como primario en dark */
-  --primary-foreground: oklch(0.10 0.04 264);    /* Azul oscuro sobre verde */
+  --primary:            oklch(0.55 0.18 162);
+  --primary-foreground: oklch(0.10 0.04 264);
   --primary-hover:      oklch(0.62 0.18 162);
   --primary-text:       oklch(0.72 0.15 162);
 
@@ -300,7 +280,7 @@
   --input:              oklch(0.25 0.06 264);
   --ring:               oklch(0.55 0.18 162);
 
-  --sidebar:            oklch(0.08 0.04 264);    /* Más oscuro que el fondo */
+  --sidebar:            oklch(0.08 0.04 264);
   --sidebar-foreground: oklch(0.90 0.02 264);
   --sidebar-primary:    oklch(0.55 0.18 162);
   --sidebar-primary-foreground: oklch(0.10 0.04 264);
@@ -320,13 +300,14 @@
    BASE STYLES
    ============================================================ */
 
-* {
+*, *::before, *::after {
   box-sizing: border-box;
   border-color: var(--border);
 }
 
 html {
   font-family: var(--font-sans);
+  font-size: 16px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -334,162 +315,80 @@ html {
 body {
   background-color: var(--background);
   color: var(--foreground);
-  line-height: var(--leading-normal);
+  line-height: 1.5;
 }
 
 /* ============================================================
    TIPOGRAFÍA SEMÁNTICA
    ============================================================ */
 
-/* Display — DM Serif, solo en títulos grandes */
+.font-display,
+[class*="font-display"] {
+  font-family: var(--font-display);
+}
+
 .display-xl {
   font-family: var(--font-display);
-  font-size: var(--text-6xl);
-  font-weight: 400;              /* Serif no necesita bold */
-  line-height: var(--leading-tight);
-  letter-spacing: var(--tracking-tight);
+  font-size: 3.75rem;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -0.025em;
 }
 
 .display-lg {
   font-family: var(--font-display);
-  font-size: var(--text-5xl);
+  font-size: 3rem;
   font-weight: 400;
-  line-height: var(--leading-tight);
-  letter-spacing: var(--tracking-tight);
-}
-
-/* Headings — Plus Jakarta Sans, bold */
-.heading-1 {
-  font-family: var(--font-sans);
-  font-size: var(--text-4xl);
-  font-weight: var(--font-bold);
-  line-height: var(--leading-tight);
-  letter-spacing: var(--tracking-tight);
-}
-
-.heading-2 {
-  font-family: var(--font-sans);
-  font-size: var(--text-3xl);
-  font-weight: var(--font-bold);
-  line-height: var(--leading-snug);
-  letter-spacing: var(--tracking-tight);
-}
-
-.heading-3 {
-  font-family: var(--font-sans);
-  font-size: var(--text-2xl);
-  font-weight: var(--font-semibold);
-  line-height: var(--leading-snug);
-}
-
-.heading-4 {
-  font-family: var(--font-sans);
-  font-size: var(--text-xl);
-  font-weight: var(--font-semibold);
-  line-height: var(--leading-snug);
-}
-
-/* Body */
-.body-lg {
-  font-size: var(--text-lg);
-  font-weight: var(--font-normal);
-  line-height: var(--leading-relaxed);
-}
-
-.body-base {
-  font-size: var(--text-base);
-  font-weight: var(--font-normal);
-  line-height: var(--leading-normal);
-}
-
-.body-sm {
-  font-size: var(--text-sm);
-  font-weight: var(--font-normal);
-  line-height: var(--leading-normal);
-}
-
-/* Labels y UI */
-.label {
-  font-size: var(--text-sm);
-  font-weight: var(--font-medium);
-  line-height: var(--leading-none);
-  letter-spacing: var(--tracking-wide);
-}
-
-.caption {
-  font-size: var(--text-xs);
-  font-weight: var(--font-normal);
-  line-height: var(--leading-normal);
-  color: var(--muted-foreground);
-}
-
-.overline {
-  font-size: var(--text-xs);
-  font-weight: var(--font-semibold);
-  line-height: var(--leading-none);
-  letter-spacing: var(--tracking-widest);
-  text-transform: uppercase;
+  line-height: 1.2;
+  letter-spacing: -0.025em;
 }
 
 /* ============================================================
-   ANIMACIONES WILDTRIP
+   ANIMACIONES
    ============================================================ */
 
-/* Entrada estándar — eficiente */
 @keyframes wt-fade-in {
   from { opacity: 0; transform: translateY(8px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* Entrada de página */
 @keyframes wt-page-enter {
   from { opacity: 0; transform: translateY(12px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* Celebración — viaje aprobado, nota cerrada */
 @keyframes wt-success-pop {
   0%   { opacity: 0; transform: scale(0.85); }
   60%  { transform: scale(1.06); }
   100% { opacity: 1; transform: scale(1); }
 }
 
-/* Spinner de carga */
 @keyframes wt-spin {
   from { transform: rotate(0deg); }
   to   { transform: rotate(360deg); }
 }
 
-/* Check dibujado — confirmación */
-@keyframes wt-check-draw {
-  from { stroke-dashoffset: 24; opacity: 0; }
-  to   { stroke-dashoffset: 0; opacity: 1; }
-}
-
-/* Stagger para listas de gastos, viajes */
 @keyframes wt-list-item {
   from { opacity: 0; transform: translateX(-8px); }
   to   { opacity: 1; transform: translateX(0); }
 }
 
-/* Clases de animación */
 .animate-fade-in     { animation: wt-fade-in var(--duration-slow) var(--ease-out) forwards; }
 .animate-page-enter  { animation: wt-page-enter var(--duration-slow) var(--ease-elegant) forwards; }
 .animate-success-pop { animation: wt-success-pop var(--duration-dramatic) var(--ease-spring) forwards; }
-.animate-spin        { animation: wt-spin 1s linear infinite; }
+.animate-wt-spin     { animation: wt-spin 1s linear infinite; }
+.animate-list-item   { animation: wt-list-item var(--duration-slow) var(--ease-out) forwards; }
 
 /* ============================================================
    ACCESIBILIDAD
    ============================================================ */
 
-/* Focus ring — verde accent, bien visible */
 :focus-visible {
   outline: 2px solid var(--ring);
   outline-offset: 2px;
   border-radius: var(--radius-sm);
 }
 
-/* Reducir motion */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
@@ -498,7 +397,6 @@ body {
   }
 }
 
-/* Área táctil mínima en mobile — WCAG 2.5.5 */
 @media (max-width: 640px) {
   button,
   input,
