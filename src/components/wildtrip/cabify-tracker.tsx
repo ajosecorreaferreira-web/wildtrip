@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { Car, MapPin, Clock, CheckCircle, Loader2, Navigation } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import { Button } from '@/components/ui/button'
+import { Button } from '@/components/wildtrip/atoms'
 
 type TrackerState = 'requesting' | 'coming' | 'en_route' | 'arrived'
 

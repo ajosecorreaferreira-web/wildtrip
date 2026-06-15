@@ -11,7 +11,6 @@ import {
   Sparkles,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import { Button } from '@/components/ui/button'
 
 type UploaderStep = 'camera' | 'ocr' | 'confirm' | 'associate' | 'success'
 
@@ -432,15 +431,13 @@ function TicketUploader({ trips, onComplete, onCancel, className }: TicketUpload
           </h2>
         </div>
         {onCancel && step !== 'success' && (
-          <Button
-            variant="ghost"
-            size="icon"
+          <button
             onClick={onCancel}
             aria-label="Cancelar"
-            className="size-8 rounded-xl text-muted-foreground"
+            className="w-8 h-8 flex items-center justify-center rounded-xl text-muted-foreground hover:bg-muted"
           >
             <X size={20} strokeWidth={1.5} />
-          </Button>
+          </button>
         )}
       </div>
 

@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { Info, AlertTriangle, CheckCircle, AlertCircle, X } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import { Button } from '@/components/ui/button'
+// Legacy file — superseded by atoms/NotificationBanner
 
 type BannerType = 'info' | 'warning' | 'success' | 'urgent'
 
@@ -84,8 +84,7 @@ function NotificationBanner({
             <p className="text-sm text-muted-foreground mt-0.5">{description}</p>
           )}
           {action && (
-            <Button
-              variant="ghost"
+            <button
               onClick={action.onClick}
               aria-label={action.label}
               className={cn(
@@ -94,19 +93,17 @@ function NotificationBanner({
               )}
             >
               {action.label}
-            </Button>
+            </button>
           )}
         </div>
         {dismissible && (
-          <Button
-            variant="ghost"
-            size="icon"
+          <button
             onClick={() => setDismissed(true)}
             aria-label="Cerrar notificación"
-            className="rounded-xl text-muted-foreground hover:bg-muted shrink-0 [&_svg]:size-auto"
+            className="w-8 h-8 flex items-center justify-center rounded-xl text-muted-foreground hover:bg-muted shrink-0"
           >
             <X size={20} strokeWidth={1.5} />
-          </Button>
+          </button>
         )}
       </div>
     </div>
