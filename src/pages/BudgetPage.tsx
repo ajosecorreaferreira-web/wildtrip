@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
-import { AlertTriangle, X } from 'lucide-react'
+import { AlertTriangle, X, ArrowLeft } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Button, BudgetBar } from '@/components/wildtrip/atoms'
 import { BottomNav } from '@/components/wildtrip/BottomNav'
@@ -127,10 +127,97 @@ function RequestSheet({ onClose }: { onClose: () => void }) {
   )
 }
 
+const CATEGORIES = [
+  { emoji: '✈️', label: 'Vuelos',       amount: 274 },
+  { emoji: '🚕', label: 'Cabify',       amount: 105.80 },
+  { emoji: '🍽️', label: 'Restaurantes', amount: 67.80 },
+  { emoji: '☕', label: 'Otros',        amount: 3.50 },
+]
+
+function SummaryView() {
+  const navigate = useNavigate()
+  const total = CATEGORIES.reduce((acc, c) => acc + c.amount, 0)
+  const pct = Math.round((total / 560) * 10) / 10
+
+  return (
+    <div className="flex flex-col min-h-screen bg-background">
+      <div className="bg-primary px-4 pt-12 pb-5 shrink-0">
+        <button
+          onClick={() => navigate(-1)}
+          className="flex items-center gap-1 text-primary-foreground/70 hover:text-primary-foreground mb-3 transition-colors"
+        >
+          <ArrowLeft size={16} strokeWidth={1.5} />
+          <span className="font-sans text-sm">Volver</span>
+        </button>
+        <p className="font-sans text-xs text-primary-foreground/60">Post-viaje</p>
+        <h1 className="font-display text-[22px] font-normal text-primary-foreground mt-0.5">
+          A Coruña · Completado
+        </h1>
+      </div>
+
+      <main className="flex-1 overflow-y-auto pb-nav px-4">
+        <div className="rounded-2xl p-5 mt-4" style={{ backgroundColor: 'oklch(0.14 0.08 264)' }}>
+          <p className="font-sans text-xs font-semibold uppercase tracking-wide text-primary-foreground/50">
+            Gastado
+          </p>
+          <p className="font-display text-[40px] text-primary-foreground leading-tight">
+            451€
+          </p>
+          <p className="font-sans text-xs text-primary-foreground/50 mt-0.5 uppercase tracking-wide">
+            Presupuesto · 560€
+          </p>
+          <BudgetBar spent={451} total={560} variant="compact" className="mt-3" />
+          <p className="font-sans text-xs text-accent mt-2">
+            109€ ahorrados · Viaje completado
+          </p>
+          <span className="inline-flex items-center font-sans text-xs font-semibold text-accent bg-accent/20 rounded-full px-3 py-1 mt-3">
+            ✓ Viaje completado
+          </span>
+        </div>
+
+        <p className="font-sans text-xs font-semibold text-muted-foreground uppercase tracking-wide mt-6 mb-3">
+          Por categoría
+        </p>
+
+        <div className="flex flex-col gap-0 divide-y divide-border">
+          {CATEGORIES.map((cat) => (
+            <div key={cat.label} className="flex items-center justify-between py-3">
+              <div className="flex items-center gap-3">
+                <span className="text-xl leading-none">{cat.emoji}</span>
+                <span className="font-sans text-sm text-foreground">{cat.label}</span>
+              </div>
+              <span className="font-sans text-sm font-semibold text-foreground">
+                {new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR', maximumFractionDigits: 2 }).format(cat.amount)}
+              </span>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-3 pt-3 border-t border-border">
+          <p className="font-sans text-xs text-muted-foreground text-right">
+            451€ · {pct}% del presupuesto
+          </p>
+        </div>
+
+        <Button variant="ghost" size="base" className="w-full mt-4">
+          Descargar informe PDF
+        </Button>
+      </main>
+
+      <BottomNav role="traveler" />
+    </div>
+  )
+}
+
 export function BudgetPage() {
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
   const isRequesting = searchParams.get('request') === 'true'
+  const view = searchParams.get('view')
+
+  if (view === 'summary') {
+    return <SummaryView />
+  }
 
   const exceeded = DIETAS.find((d) => d.exceeded)
 

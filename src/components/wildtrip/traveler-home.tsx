@@ -1,6 +1,6 @@
 import {
   Plus,
-  AlertCircle,
+  AlertTriangle,
   Plane,
   Check,
   CheckCircle2,
@@ -13,7 +13,7 @@ import { BudgetMiniCard } from '@/components/wildtrip/molecules'
 import { TripTimeline } from '@/components/wildtrip/trip-timeline'
 import type { TimelineDay } from '@/components/wildtrip/trip-timeline'
 
-type HomeState = 'empty' | 'upcoming' | 'in_progress' | 'pending_expenses'
+type HomeState = 'empty' | 'upcoming' | 'in_progress' | 'pending_expenses' | 'closed'
 
 export interface UpcomingTrip {
   destination: string
@@ -42,6 +42,124 @@ export interface TravelerHomeProps {
   onUploadTicket?: () => void
   onOpenExpenses?: () => void
   className?: string
+}
+
+function ClosingState() {
+  const navigate = useNavigate()
+  return (
+    <div>
+      <div className="bg-primary px-4 pt-12 pb-5">
+        <p className="font-sans text-xs text-primary-foreground/60">Buenos días,</p>
+        <h1 className="font-display text-[32px] text-primary-foreground mt-0.5">Ana García</h1>
+      </div>
+
+      <div className="px-4 pb-24">
+        <div className="bg-warning-muted border border-warning rounded-xl p-4 mt-4">
+          <div className="flex items-start gap-2">
+            <AlertTriangle size={18} strokeWidth={1.5} className="text-warning-text shrink-0 mt-0.5" />
+            <div>
+              <p className="font-sans text-sm font-semibold text-warning-text">
+                Cierra la nota antes del viernes · 3 días
+              </p>
+              <p className="font-sans text-sm text-warning-text/80 mt-0.5">
+                1 gasto sin ticket · Café LCG sin justificar
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-muted rounded-2xl mt-3 p-4">
+          <div className="flex items-center justify-between gap-2">
+            <span className="font-sans text-base font-semibold text-foreground">Inditex A Coruña</span>
+            <span className="font-sans text-[10px] font-semibold uppercase tracking-wide text-warning-text bg-warning-muted border border-warning rounded-full px-2.5 py-0.5 shrink-0">
+              1 SIN TICKET
+            </span>
+          </div>
+          <p className="font-sans text-xs text-muted-foreground mt-1">Completado · 15–17 jun</p>
+
+          <div className="h-px bg-border my-3" />
+
+          <div className="flex items-baseline justify-between">
+            <span className="font-sans text-lg font-bold text-foreground">451€ gastados</span>
+            <span className="font-sans text-sm text-accent">109€ ahorrados</span>
+          </div>
+
+          <div className="mt-3">
+            <span className="inline-flex items-center font-sans text-xs font-semibold bg-primary text-primary-foreground rounded-full px-3 py-1">
+              ✓ Completado
+            </span>
+          </div>
+        </div>
+
+        <Button
+          variant="primary"
+          size="lg"
+          className="w-full mt-4"
+          iconLeft={<Receipt size={20} strokeWidth={1.5} />}
+          onClick={() => navigate('/traveler/expense-report')}
+        >
+          Cerrar nota · A Coruña
+        </Button>
+
+        <Button
+          variant="ghost"
+          size="base"
+          className="w-full mt-2"
+          onClick={() => navigate('/traveler/budget?view=summary')}
+        >
+          Ver resumen del viaje
+        </Button>
+      </div>
+    </div>
+  )
+}
+
+const CLOSED_BULLETS = [
+  'La nota ha sido enviada a Jungle Group',
+  'Recibirás confirmación por email',
+  'El pago se procesará en 5 días laborables',
+]
+
+function ClosedState() {
+  const navigate = useNavigate()
+  return (
+    <div className="animate-page-enter">
+      <div className="flex flex-col items-center mt-16">
+        <CheckCircle2 size={56} strokeWidth={1.5} className="text-accent animate-success-pop" />
+        <h2 className="font-display text-[26px] font-normal text-foreground mt-4 text-center">
+          Nota cerrada.
+        </h2>
+        <p className="font-sans text-sm text-muted-foreground mt-1 text-center">
+          Jungle Group la revisará en 24-48h.
+        </p>
+      </div>
+
+      <div className="bg-muted rounded-xl p-4 mt-6">
+        <p className="font-sans text-sm font-semibold text-foreground">Inditex A Coruña · 15–17 jun</p>
+        <p className="font-sans text-xs text-accent mt-1">451€ gastados · 109€ ahorrados</p>
+        <span className="inline-flex items-center font-sans text-xs font-semibold text-accent bg-accent/10 rounded-full px-3 py-1 mt-2">
+          ✓ Nota enviada
+        </span>
+      </div>
+
+      <div className="mt-6 space-y-3">
+        {CLOSED_BULLETS.map((text, i) => (
+          <div key={i} className="flex gap-2 items-start">
+            <CheckCircle2 size={16} strokeWidth={1.5} className="text-accent shrink-0 mt-0.5" />
+            <p className="font-sans text-sm text-foreground">{text}</p>
+          </div>
+        ))}
+      </div>
+
+      <Button
+        variant="ghost"
+        className="w-full mt-8"
+        onClick={() => navigate('/traveler')}
+      >
+        Volver al inicio
+      </Button>
+    </div>
+  )
 }
 
 function EmptyState({ onNewTrip }: { onNewTrip?: () => void }) {
@@ -166,64 +284,12 @@ function InProgressState({
   )
 }
 
-function PendingExpensesState({
-  trip,
-  onOpenExpenses,
-}: {
-  trip: PendingExpensesTrip
-  onOpenExpenses?: () => void
-}) {
-  return (
-    <div className="space-y-5 animate-page-enter">
-      <div className="rounded-2xl border bg-card p-5 space-y-4">
-        <h2 className="font-display text-3xl font-normal tracking-tight text-foreground">
-          {trip.destination}
-        </h2>
-        <p className="text-sm text-muted-foreground">Viaje completado el {trip.endDate}.</p>
-
-        <div className="rounded-xl bg-[var(--warning-muted)] border border-[var(--warning)] px-4 py-3 flex items-start gap-3">
-          <AlertCircle
-            size={20}
-            strokeWidth={1.5}
-            className="text-[var(--warning-text)] shrink-0 mt-0.5"
-          />
-          <div>
-            <p className="text-sm font-semibold text-[var(--warning-text)]">
-              Tienes {trip.expensesCount} gasto
-              {trip.expensesCount !== 1 ? 's' : ''} sin justificar.
-            </p>
-            <p className="text-xs text-muted-foreground mt-0.5">
-              Completa la nota de gastos antes del cierre del mes.
-            </p>
-          </div>
-        </div>
-
-        {onOpenExpenses && (
-          <button
-            onClick={onOpenExpenses}
-            className={cn(
-              'w-full inline-flex items-center justify-center gap-2',
-              'rounded-xl min-h-[44px] px-5 text-sm font-medium',
-              'bg-primary text-primary-foreground hover:bg-[var(--primary-hover)]',
-              'transition-colors duration-200'
-            )}
-          >
-            <Receipt size={20} strokeWidth={1.5} />
-            Ver nota de gastos
-          </button>
-        )}
-      </div>
-    </div>
-  )
-}
 
 function TravelerHome({
   state,
   active,
-  pendingExpenses,
   onNewTrip,
   onUploadTicket,
-  onOpenExpenses,
   className,
 }: TravelerHomeProps) {
   return (
@@ -233,9 +299,8 @@ function TravelerHome({
       {state === 'in_progress' && active && (
         <InProgressState trip={active} onUploadTicket={onUploadTicket} />
       )}
-      {state === 'pending_expenses' && pendingExpenses && (
-        <PendingExpensesState trip={pendingExpenses} onOpenExpenses={onOpenExpenses} />
-      )}
+      {state === 'pending_expenses' && <ClosingState />}
+      {state === 'closed' && <ClosedState />}
     </div>
   )
 }

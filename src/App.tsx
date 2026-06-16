@@ -15,6 +15,7 @@ import { ManagerPage }       from '@/pages/ManagerPage'
 import { QuickApprovalPage } from '@/pages/QuickApprovalPage'
 import { FinancePage }       from '@/pages/FinancePage'
 import { CheckoutPage }      from '@/pages/CheckoutPage'
+import { ExpenseReportPage } from '@/pages/ExpenseReportPage'
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
             <Route path="/traveler/budget"       element={<BudgetPage />} />
             <Route path="/traveler/timeline"     element={<TimelinePage />} />
             <Route path="/traveler/boarding-pass" element={<BoardingPassPage />} />
+            <Route path="/traveler/expense-report" element={<ExpenseReportPage />} />
             <Route path="/manager"               element={<ManagerPage />} />
             <Route path="/manager/approve/:id"   element={<QuickApprovalPage />} />
             <Route path="/finance"               element={<FinancePage />} />

@@ -4,15 +4,18 @@ import { TravelerHome } from '@/components/wildtrip/traveler-home'
 import { BottomNav } from '@/components/wildtrip/BottomNav'
 import { MOCK_TIMELINE_DAYS_LEGACY } from '@/data/mock'
 
-type URLState = 'empty' | 'upcoming' | 'active' | 'closing'
-type HomeState = 'empty' | 'upcoming' | 'in_progress' | 'pending_expenses'
+type URLState = 'empty' | 'upcoming' | 'active' | 'closing' | 'closed'
+type HomeState = 'empty' | 'upcoming' | 'in_progress' | 'pending_expenses' | 'closed'
 
 const STATE_MAP: Record<URLState, HomeState> = {
   empty:   'empty',
   upcoming: 'upcoming',
   active:  'in_progress',
   closing: 'pending_expenses',
+  closed:  'closed',
 }
+
+const FULL_WIDTH_STATES: HomeState[] = ['in_progress', 'pending_expenses']
 
 export function TravelerPage() {
   const navigate = useNavigate()
@@ -24,7 +27,7 @@ export function TravelerPage() {
     <div className="min-h-screen bg-background flex flex-col">
       <div className={cn(
         'flex-1 max-w-md mx-auto w-full',
-        homeState !== 'in_progress' && 'px-4 pt-8 pb-24',
+        !FULL_WIDTH_STATES.includes(homeState) && 'px-4 pt-8 pb-24',
       )}>
         <TravelerHome
           state={homeState}
@@ -38,14 +41,8 @@ export function TravelerPage() {
             destination: 'A Coruña',
             days: MOCK_TIMELINE_DAYS_LEGACY,
           }}
-          pendingExpenses={{
-            destination: 'A Coruña',
-            endDate: '17 jun',
-            expensesCount: 3,
-          }}
           onNewTrip={() => navigate('/traveler/new-trip')}
           onUploadTicket={() => navigate('/traveler/ticket')}
-          onOpenExpenses={() => navigate('/traveler/budget')}
         />
       </div>
       <BottomNav role="traveler" />
