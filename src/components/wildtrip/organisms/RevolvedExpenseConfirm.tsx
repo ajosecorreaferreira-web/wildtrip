@@ -125,14 +125,14 @@ export function RevolvedExpenseConfirm({
                 key={cat}
                 onClick={() => setCategory(cat)}
                 className={cn(
-                  'flex flex-col items-center gap-1.5 py-3 rounded-xl transition-all duration-[180ms]',
+                  'flex flex-col items-center gap-1.5 p-3 rounded-xl cursor-pointer transition-all duration-[180ms]',
                   category === cat
-                    ? 'border-2 border-primary bg-secondary'
-                    : 'border border-border bg-card hover:bg-muted',
+                    ? 'border-2 border-primary bg-primary/5'
+                    : 'border border-border bg-background hover:bg-muted',
                 )}
               >
-                <span className="text-xl" aria-hidden>{EXPENSE_EMOJIS[cat]}</span>
-                <span className="font-sans text-[9px] text-muted-foreground leading-none">
+                <span className="text-2xl" aria-hidden>{EXPENSE_EMOJIS[cat]}</span>
+                <span className="font-sans text-xs font-medium text-muted-foreground leading-none">
                   {CATEGORY_LABELS[cat]}
                 </span>
               </button>

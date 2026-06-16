@@ -38,11 +38,13 @@ function SchematicMap({ state }: { state: TrackerState }) {
 
   return (
     <svg
-      viewBox="0 0 390 280"
-      className="w-full h-full"
+      viewBox="0 0 390 420"
+      width="100%"
+      height="100%"
       aria-label="Mapa de ruta"
       role="img"
       preserveAspectRatio="xMidYMid slice"
+      style={{ display: 'block' }}
       xmlns="http://www.w3.org/2000/svg"
     >
       <defs>
@@ -52,7 +54,7 @@ function SchematicMap({ state }: { state: TrackerState }) {
         </radialGradient>
       </defs>
 
-      <rect width="390" height="280" fill="#F2EFE9" />
+      <rect width="390" height="420" fill="#F2EFE9" />
 
       <rect x="20"  y="20"  width="80" height="50" rx="4" fill="#E8E3D9" />
       <rect x="120" y="10"  width="60" height="40" rx="4" fill="#E8E3D9" />
@@ -78,7 +80,7 @@ function SchematicMap({ state }: { state: TrackerState }) {
       <line x1="155" y1="0"   x2="155" y2="280" stroke="white" strokeWidth="4" />
       <line x1="260" y1="0"   x2="260" y2="280" stroke="white" strokeWidth="4" />
 
-      <rect width="390" height="280" fill="url(#mapGlow)" />
+      <rect width="390" height="420" fill="url(#mapGlow)" />
 
       <polyline
         points={`${car.x},${car.y} ${DEST.x},${DEST.y}`}
@@ -458,7 +460,7 @@ export function CabifyTracker({
   return (
     <div className={cn('flex flex-col h-full', className)}>
       {/* Map */}
-      <div className="flex-1 relative overflow-hidden">
+      <div className="min-h-[60vh] flex-1 relative overflow-hidden">
         <SchematicMap state={state} />
       </div>
 

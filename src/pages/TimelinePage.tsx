@@ -104,6 +104,17 @@ function EventRow({
   )
 }
 
+const formatEventDate = (dateStr: string) => {
+  const date = new Date(dateStr + 'T00:00:00')
+  return date.toLocaleDateString('es-ES', {
+    weekday: 'long',
+    day: 'numeric',
+    month: 'long',
+  })
+}
+
+const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1)
+
 export function TimelinePage() {
   const navigate = useNavigate()
   const days: TimelineDay[] = MOCK_TIMELINE_DAYS_ORG
@@ -150,6 +161,9 @@ export function TimelinePage() {
 
       {/* Scrollable events */}
       <div className="flex-1 overflow-y-auto px-4 pt-5 pb-32">
+        <p className="font-sans text-sm font-semibold text-foreground mb-4">
+          {capitalize(formatEventDate(day.date))}
+        </p>
         {day?.events.map((event: TimelineEvent, idx: number) => {
           const isLast = idx === day.events.length - 1
 

@@ -23,9 +23,10 @@ export function CabifyPage() {
   }, [state])
 
   return (
-    <div className="flex flex-col h-screen bg-background max-w-md mx-auto">
+    <div className="flex flex-col h-screen overflow-hidden bg-[#F2EFE9]">
+      <div className="flex-1 relative overflow-hidden">
       <CabifyTracker
-        className="flex-1"
+        className="h-full"
         state={state}
         origin="LCG · Aeropuerto A Coruña"
         destination="Inditex Arteixo"
@@ -40,6 +41,7 @@ export function CabifyPage() {
         onCancel={() => navigate('/traveler/timeline')}
         onMarkArrived={() => setState('arrived')}
       />
+      </div>
     </div>
   )
 }
