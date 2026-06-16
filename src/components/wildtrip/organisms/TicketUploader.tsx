@@ -319,57 +319,54 @@ export function TicketUploader({ trips, onComplete, onCancel, className }: Ticke
   }
 
   return (
-    <div className={cn('flex flex-col flex-1 bg-background', className)}>
-      {/* Scrollable content */}
-      <div className="flex-1 overflow-y-auto px-4 py-4 pb-4">
-        <div
-          className="rounded-3xl bg-card border border-border px-6 py-5 w-full max-w-sm mx-auto"
-          style={{ boxShadow: 'var(--shadow-lg)' }}
-        >
-          {/* Header */}
-          <div className="flex items-center justify-between mb-5">
-            <h2 className="font-sans text-base font-semibold text-foreground">Añadir ticket</h2>
-            {step < 5 && (
-              <button
-                onClick={onCancel}
-                aria-label="Cancelar"
-                className="w-8 h-8 flex items-center justify-center rounded-xl text-muted-foreground hover:bg-muted"
-              >
-                <X size={16} strokeWidth={1.5} />
-              </button>
-            )}
+    <div className="flex flex-col min-h-screen bg-background">
+      {/* Navy header — steps 1–4 only */}
+      {step < 5 && (
+        <div className="bg-primary px-4 pt-12 pb-4 shrink-0">
+          <div className="flex justify-between items-center">
+            <p className="font-sans text-xs text-primary-foreground/60">
+              Paso {step} de 5 · Añadir ticket
+            </p>
+            <button
+              onClick={onCancel}
+              aria-label="Cancelar"
+              className="w-8 h-8 flex items-center justify-center rounded-xl text-primary-foreground/60 hover:text-primary-foreground"
+            >
+              <X size={20} strokeWidth={1.5} />
+            </button>
           </div>
-
-          {/* Stepper */}
-          {step < 5 && <Stepper steps={5} current={step} className="mb-6" />}
-
-          {step === 1 && <StepPhoto onFile={handleFile} />}
-          {step === 2 && <StepOcr preview={preview} />}
-          {step === 3 && (
-            <StepConfirm
-              merchant={merchant} amount={amount} date={date}
-              onMerchant={setMerchant} onAmount={setAmount} onDate={setDate}
-            />
-          )}
-          {step === 4 && (
-            <StepAssociate
-              trips={trips}
-              selectedTripId={tripId}
-              onSelectTrip={setTripId}
-              selectedCategory={category}
-              onSelectCategory={setCategory}
-            />
-          )}
-          {step === 5 && (
-            <StepSuccess merchant={merchant} amount={amount} category={category} onDone={onCancel} />
-          )}
+          <Stepper steps={5} current={step} invert className="mt-3" />
         </div>
-      </div>
+      )}
+
+      {/* Scrollable content */}
+      <main className="flex-1 overflow-y-auto px-4 py-6 pb-24">
+        {step === 1 && <StepPhoto onFile={handleFile} />}
+        {step === 2 && <StepOcr preview={preview} />}
+        {step === 3 && (
+          <StepConfirm
+            merchant={merchant} amount={amount} date={date}
+            onMerchant={setMerchant} onAmount={setAmount} onDate={setDate}
+          />
+        )}
+        {step === 4 && (
+          <StepAssociate
+            trips={trips}
+            selectedTripId={tripId}
+            onSelectTrip={setTripId}
+            selectedCategory={category}
+            onSelectCategory={setCategory}
+          />
+        )}
+        {step === 5 && (
+          <StepSuccess merchant={merchant} amount={amount} category={category} onDone={onCancel} />
+        )}
+      </main>
 
       {/* Sticky CTAs */}
       {step === 3 && (
         <div className="sticky-cta">
-          <Button variant="primary" size="base" className="w-full max-w-sm mx-auto flex" onClick={() => setStep(4)}>
+          <Button variant="primary" size="base" className="w-full flex" onClick={() => setStep(4)}>
             Confirmar datos
             <ChevronRight size={16} strokeWidth={1.5} />
           </Button>
@@ -380,7 +377,7 @@ export function TicketUploader({ trips, onComplete, onCancel, className }: Ticke
           <Button
             variant="primary"
             size="base"
-            className="w-full max-w-sm mx-auto flex"
+            className="w-full flex"
             disabled={!tripId}
             loading={submitting}
             onClick={handleComplete}

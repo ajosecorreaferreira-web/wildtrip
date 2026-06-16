@@ -6,7 +6,7 @@ export function TicketPage() {
   const navigate = useNavigate()
 
   return (
-    <div className="flex flex-col min-h-screen bg-background max-w-md mx-auto">
+    <div className="flex flex-col min-h-screen bg-background">
       <TicketUploader
         trips={MOCK_TRIP_OPTIONS}
         onComplete={async () => {
