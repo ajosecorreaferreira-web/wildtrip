@@ -14,6 +14,7 @@ import { BoardingPassPage }  from '@/pages/BoardingPassPage'
 import { ManagerPage }       from '@/pages/ManagerPage'
 import { QuickApprovalPage } from '@/pages/QuickApprovalPage'
 import { FinancePage }       from '@/pages/FinancePage'
+import { CheckoutPage }      from '@/pages/CheckoutPage'
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
             <Route path="/traveler/new-trip"     element={<NewTripPage />} />
             <Route path="/traveler/ticket"       element={<TicketPage />} />
             <Route path="/traveler/ticket/revolut" element={<RevolvedPage />} />
+            <Route path="/traveler/checkout"       element={<CheckoutPage />} />
             <Route path="/traveler/cabify"       element={<CabifyPage />} />
             <Route path="/traveler/hotel"        element={<HotelPage />} />
             <Route path="/traveler/budget"       element={<BudgetPage />} />

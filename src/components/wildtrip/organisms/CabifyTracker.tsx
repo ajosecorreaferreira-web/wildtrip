@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { MapPin, Phone, Star, CheckCircle2, ArrowRight } from 'lucide-react'
+import { Phone, X, ChevronRight, CheckCircle2 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/wildtrip/atoms'
 
@@ -52,10 +52,8 @@ function SchematicMap({ state }: { state: TrackerState }) {
         </radialGradient>
       </defs>
 
-      {/* Background */}
       <rect width="390" height="280" fill="#F2EFE9" />
 
-      {/* Building blocks */}
       <rect x="20"  y="20"  width="80" height="50" rx="4" fill="#E8E3D9" />
       <rect x="120" y="10"  width="60" height="40" rx="4" fill="#E8E3D9" />
       <rect x="200" y="25"  width="90" height="55" rx="4" fill="#E8E3D9" />
@@ -69,14 +67,12 @@ function SchematicMap({ state }: { state: TrackerState }) {
       <rect x="225" y="190" width="80" height="70" rx="4" fill="#E8E3D9" />
       <rect x="325" y="200" width="50" height="55" rx="4" fill="#E8E3D9" />
 
-      {/* Main streets */}
       <line x1="0" y1="80"  x2="390" y2="80"  stroke="white" strokeWidth="8" />
       <line x1="0" y1="175" x2="390" y2="175" stroke="white" strokeWidth="8" />
       <line x1="100" y1="0" x2="100" y2="280" stroke="white" strokeWidth="8" />
       <line x1="205" y1="0" x2="205" y2="280" stroke="white" strokeWidth="8" />
       <line x1="310" y1="0" x2="310" y2="280" stroke="white" strokeWidth="8" />
 
-      {/* Secondary streets */}
       <line x1="0"   y1="130" x2="390" y2="130" stroke="white" strokeWidth="4" />
       <line x1="50"  y1="0"   x2="50"  y2="280" stroke="white" strokeWidth="4" />
       <line x1="155" y1="0"   x2="155" y2="280" stroke="white" strokeWidth="4" />
@@ -84,7 +80,6 @@ function SchematicMap({ state }: { state: TrackerState }) {
 
       <rect width="390" height="280" fill="url(#mapGlow)" />
 
-      {/* Route */}
       <polyline
         points={`${car.x},${car.y} ${DEST.x},${DEST.y}`}
         fill="none"
@@ -94,7 +89,6 @@ function SchematicMap({ state }: { state: TrackerState }) {
         strokeLinecap="round"
       />
 
-      {/* Destination pin */}
       <circle cx={DEST.x} cy={DEST.y} r="10" fill="oklch(0.20 0.10 264)" />
       <circle cx={DEST.x} cy={DEST.y} r="4"  fill="white" />
       <rect x="255" y="55" width="70" height="20" rx="4" fill="oklch(0.20 0.10 264)" />
@@ -109,7 +103,6 @@ function SchematicMap({ state }: { state: TrackerState }) {
         Inditex Ar.
       </text>
 
-      {/* Conductor pulse ring */}
       <circle cx={car.x} cy={car.y} r="10" fill="oklch(0.55 0.18 162)" opacity="0.2">
         <animate attributeName="r"       values="10;18;10" dur="2s" repeatCount="indefinite" />
         <animate attributeName="opacity" values="0.2;0;0.2" dur="2s" repeatCount="indefinite" />
@@ -119,49 +112,10 @@ function SchematicMap({ state }: { state: TrackerState }) {
   )
 }
 
-// ─── Driver Row ───────────────────────────────────────────────────────────────
+// ─── Driver Avatar ────────────────────────────────────────────────────────────
 
-function DriverRow({
-  name,
-  car,
-  plate,
-  rating,
-  compact,
-  onCall,
-}: {
-  name: string
-  car: string
-  plate: string
-  rating: number
-  compact?: boolean
-  onCall?: () => void
-}) {
-  return (
-    <div className="flex items-center gap-3">
-      <div className="w-10 h-10 rounded-full bg-muted shrink-0 flex items-center justify-center font-sans font-semibold text-sm text-foreground">
-        {name[0]}
-      </div>
-      <div className="flex-1 min-w-0">
-        <div className="flex items-center gap-1.5">
-          <p className="font-sans text-sm font-semibold text-foreground">{name}</p>
-          <Star size={11} strokeWidth={1.5} className="text-warning fill-warning" aria-hidden />
-          <span className="font-sans text-xs text-muted-foreground">{rating}</span>
-        </div>
-        <p className="font-sans text-xs text-muted-foreground">
-          {compact ? plate : `${car} · ${plate}`}
-        </p>
-      </div>
-      {onCall && (
-        <button
-          onClick={onCall}
-          aria-label="Llamar al conductor"
-          className="w-9 h-9 rounded-full border border-border flex items-center justify-center hover:bg-muted transition-colors"
-        >
-          <Phone size={16} strokeWidth={1.5} className="text-foreground" />
-        </button>
-      )}
-    </div>
-  )
+function driverInitials(name: string) {
+  return name.split(' ').slice(0, 2).map((w) => w[0]).join('').toUpperCase()
 }
 
 // ─── State Views ──────────────────────────────────────────────────────────────
@@ -171,97 +125,102 @@ function IncomingContent({
   driverName,
   driverCar,
   driverPlate,
-  driverRating,
-  estimatedPrice,
-  paymentMethod,
-  onCall,
-  onCancel,
-}: {
-  eta: number
-  driverName: string
-  driverCar: string
-  driverPlate: string
-  driverRating: number
-  estimatedPrice: number
-  paymentMethod: string
-  onCall?: () => void
-  onCancel?: () => void
-}) {
-  return (
-    <div className="flex flex-col gap-4">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-1.5">
-          <div className="w-2 h-2 rounded-full bg-foreground shrink-0" />
-          <span className="font-sans text-xs font-semibold text-foreground uppercase tracking-wide">
-            En camino
-          </span>
-        </div>
-        <div className="text-right">
-          <p className="font-display text-4xl text-foreground leading-none">{eta}</p>
-          <p className="font-sans text-xs text-muted-foreground mt-0.5">minutos</p>
-        </div>
-      </div>
-      <DriverRow
-        name={driverName} car={driverCar} plate={driverPlate}
-        rating={driverRating} onCall={onCall}
-      />
-      <div className="flex items-center justify-between rounded-xl bg-muted px-3 py-2.5">
-        <span className="font-sans text-sm font-semibold text-foreground">~{estimatedPrice}€</span>
-        <span className="font-sans text-xs text-muted-foreground">{paymentMethod}</span>
-      </div>
-      <div className="flex gap-2">
-        <Button variant="ghost" className="flex-1" onClick={onCall}>Llamar</Button>
-        <Button variant="ghost" className="flex-1" onClick={onCancel}>Cancelar</Button>
-      </div>
-    </div>
-  )
-}
-
-function LiveContent({
-  eta,
   origin,
   destination,
   estimatedPrice,
   paymentMethod,
   onCall,
+  onCancel,
+  isLive,
 }: {
   eta: number
+  driverName: string
+  driverCar: string
+  driverPlate: string
   origin: string
   destination: string
   estimatedPrice: number
   paymentMethod: string
   onCall?: () => void
+  onCancel?: () => void
+  isLive?: boolean
 }) {
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-0">
+      {/* Drag handle */}
+      <div className="w-10 h-1 bg-border rounded-full mx-auto mb-4" />
+
+      {/* Badge + ETA */}
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-1.5">
-          <div className="w-2 h-2 rounded-full bg-accent animate-ping" />
-          <span className="font-sans text-xs font-semibold text-accent uppercase tracking-wide">
-            En vivo
+        <span className={cn(
+          'inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full font-sans text-xs font-semibold',
+          isLive ? 'bg-accent/10 text-accent' : 'bg-muted text-foreground',
+        )}>
+          <span className={cn(
+            'w-1.5 h-1.5 rounded-full bg-accent shrink-0',
+            isLive && 'animate-pulse',
+          )} />
+          {isLive ? 'EN VIVO' : 'EN CAMINO'}
+        </span>
+        <span className="font-sans text-3xl font-bold text-foreground leading-none">
+          {eta} <span className="text-base font-normal text-muted-foreground">min</span>
+        </span>
+      </div>
+
+      {/* Driver row */}
+      <div className="flex items-center gap-3 mt-4">
+        <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center shrink-0">
+          <span className="font-sans text-xs font-semibold text-primary-foreground">
+            {driverInitials(driverName)}
           </span>
         </div>
-        <div className="flex items-center gap-2">
-          <span className="font-sans text-sm font-semibold text-foreground">{eta} min</span>
-          {onCall && (
-            <button
-              onClick={onCall}
-              aria-label="Llamar al conductor"
-              className="w-8 h-8 rounded-full border border-border flex items-center justify-center hover:bg-muted transition-colors"
-            >
-              <Phone size={14} strokeWidth={1.5} className="text-foreground" />
-            </button>
-          )}
+        <div className="flex-1 min-w-0">
+          <p className="font-sans text-sm font-semibold text-foreground">{driverName}</p>
+          <p className="font-sans text-xs text-muted-foreground">
+            {driverCar} · {driverPlate}
+          </p>
         </div>
+        <span className="font-sans text-[13px] text-warning font-semibold shrink-0">
+          ★ 4.9
+        </span>
       </div>
-      <div className="flex items-center gap-2 min-w-0">
-        <p className="font-sans text-sm text-muted-foreground truncate flex-1">{origin}</p>
-        <ArrowRight size={12} strokeWidth={1.5} className="text-muted-foreground shrink-0" />
-        <p className="font-sans text-sm font-semibold text-foreground truncate flex-1 text-right">{destination}</p>
+
+      <div className="border-t border-border mt-3" />
+
+      {/* Origin → destination */}
+      <div className="flex items-center gap-2 mt-3">
+        <span className="w-1.5 h-1.5 rounded-full bg-accent shrink-0" />
+        <p className="font-sans text-xs text-muted-foreground">{origin}</p>
+        <ChevronRight size={14} strokeWidth={1.5} className="text-muted-foreground shrink-0" />
+        <span className="w-1.5 h-1.5 rounded-full bg-primary shrink-0" />
+        <p className="font-sans text-xs font-semibold text-foreground">{destination}</p>
       </div>
-      <div className="flex items-center justify-between rounded-xl bg-muted px-3 py-2.5">
-        <span className="font-sans text-sm font-semibold text-foreground">~{estimatedPrice}€</span>
-        <span className="font-sans text-xs text-muted-foreground">{paymentMethod}</span>
+
+      {/* Price pill */}
+      <div className="mt-3">
+        <span className="inline-flex items-center px-3 py-1 rounded-full bg-muted font-sans text-xs text-muted-foreground">
+          ~{estimatedPrice}€ · {paymentMethod}
+        </span>
+      </div>
+
+      {/* Buttons */}
+      <div className="flex gap-2 mt-4">
+        <button
+          onClick={onCall}
+          className="flex-1 h-10 rounded-xl border border-border flex items-center justify-center gap-2 font-sans text-sm font-medium text-foreground hover:bg-muted transition-colors"
+        >
+          <Phone size={16} strokeWidth={1.5} />
+          Llamar
+        </button>
+        {!isLive && (
+          <button
+            onClick={onCancel}
+            className="flex-1 h-10 rounded-xl border border-border flex items-center justify-center gap-2 font-sans text-sm font-medium text-foreground hover:bg-muted transition-colors"
+          >
+            <X size={16} strokeWidth={1.5} />
+            Cancelar
+          </button>
+        )}
       </div>
     </div>
   )
@@ -273,6 +232,10 @@ function InProgressContent({
   eta,
   estimatedPrice,
   paymentMethod,
+  driverName,
+  driverCar,
+  driverPlate,
+  onCall,
   onMarkArrived,
 }: {
   origin: string
@@ -280,34 +243,67 @@ function InProgressContent({
   eta: number
   estimatedPrice: number
   paymentMethod: string
+  driverName: string
+  driverCar: string
+  driverPlate: string
+  onCall?: () => void
   onMarkArrived?: () => void
 }) {
   return (
-    <div className="flex flex-col gap-4">
-      <div className="flex items-center gap-2">
-        <div className="flex-1 min-w-0">
-          <p className="font-sans text-xs text-muted-foreground truncate">{origin}</p>
-          <div className="flex items-center gap-1.5 mt-0.5">
-            <MapPin size={12} strokeWidth={1.5} className="text-accent shrink-0" />
-            <p className="font-sans text-sm font-semibold text-foreground truncate">{destination}</p>
-          </div>
+    <div className="flex flex-col gap-0">
+      {/* Drag handle */}
+      <div className="w-10 h-1 bg-border rounded-full mx-auto mb-4" />
+
+      {/* Badge + ETA */}
+      <div className="flex items-center justify-between">
+        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-muted font-sans text-xs font-semibold text-foreground">
+          <span className="w-1.5 h-1.5 rounded-full bg-accent shrink-0" />
+          EN TRAYECTO
+        </span>
+        <span className="font-sans text-3xl font-bold text-foreground leading-none">
+          {eta} <span className="text-base font-normal text-muted-foreground">min</span>
+        </span>
+      </div>
+
+      {/* Driver compact */}
+      <div className="flex items-center gap-3 mt-4">
+        <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center shrink-0">
+          <span className="font-sans text-xs font-semibold text-primary-foreground">
+            {driverInitials(driverName)}
+          </span>
         </div>
-        <div className="flex gap-1.5 shrink-0">
-          <span className="px-2 py-1 rounded-full bg-muted font-sans text-xs font-semibold text-muted-foreground">
-            {eta} min
-          </span>
-          <span className="px-2 py-1 rounded-full bg-muted font-sans text-xs font-semibold text-muted-foreground">
-            ~{estimatedPrice}€
-          </span>
+        <div className="flex-1 min-w-0">
+          <p className="font-sans text-sm font-semibold text-foreground">
+            {driverName} · {driverCar}
+          </p>
+          <p className="font-sans text-xs text-muted-foreground">{driverPlate}</p>
+        </div>
+        <div className="flex gap-2 shrink-0">
+          <button
+            onClick={onCall}
+            className="w-9 h-9 rounded-full border border-border flex items-center justify-center hover:bg-muted transition-colors"
+            aria-label="Llamar"
+          >
+            <Phone size={16} strokeWidth={1.5} className="text-foreground" />
+          </button>
         </div>
       </div>
-      <div className="flex items-center gap-2 rounded-xl bg-accent-soft px-3 py-2.5">
-        <div className="w-1.5 h-1.5 rounded-full bg-accent shrink-0" />
-        <p className="font-sans text-xs text-accent-text">
+
+      {/* Payment banner */}
+      <div className="mt-3 rounded-xl bg-success-muted px-3 py-2.5">
+        <p className="font-sans text-xs text-success-text">
           Se cargará a <span className="font-semibold">{paymentMethod}</span> automáticamente.
         </p>
       </div>
-      <Button variant="accent" className="w-full" onClick={onMarkArrived}>
+
+      <div className="flex items-center justify-between mt-3">
+        <span className="font-sans text-sm text-muted-foreground">
+          {origin} → {destination}
+        </span>
+        <span className="font-sans text-sm font-semibold text-foreground">~{estimatedPrice}€</span>
+      </div>
+
+      <Button variant="accent" className="w-full mt-4" onClick={onMarkArrived}>
         Ya llegué
       </Button>
     </div>
@@ -359,60 +355,54 @@ function ArrivedView({
   return (
     <>
       <div className="flex-1 overflow-y-auto px-5 pb-4">
-        <div className="flex flex-col items-center pt-12">
+        <div className="flex flex-col items-center pt-16">
           <CheckCircle2 size={56} strokeWidth={1.5} className="text-accent" />
           <p className="font-sans text-sm text-muted-foreground mt-4 text-center">Llegaste a</p>
-          <h2 className="font-display text-[28px] text-foreground mt-1 text-center">{destination}</h2>
+          <h2 className="font-display text-[26px] text-foreground mt-1 text-center leading-tight">
+            {destination}
+          </h2>
           <p className="font-sans text-xs text-muted-foreground mt-1 text-center">
-            Polígono de Sabón, Arteixo, A Coruña
+            Polígono de Sabón · Arteixo, A Coruña
           </p>
-        </div>
 
-        {/* Stats row */}
-        <div className="flex items-center justify-center gap-5 mt-8">
-          {[
-            { value: '13 min', label: 'duración' },
-            { value: '10 km',  label: 'distancia' },
-            { value: formattedPrice, label: 'total' },
-          ].map(({ value, label }, i, arr) => (
-            <React.Fragment key={label}>
-              <div className="text-center">
-                <p className="font-sans text-base font-semibold text-foreground">{value}</p>
-                <p className="font-sans text-xs text-muted-foreground">{label}</p>
-              </div>
-              {i < arr.length - 1 && (
-                <div className="w-px h-8 bg-border shrink-0" />
-              )}
-            </React.Fragment>
-          ))}
-        </div>
+          {/* Stats inline */}
+          <div className="flex items-center justify-center gap-3 mt-4">
+            <span className="font-sans text-sm font-semibold text-foreground">13 min</span>
+            <span className="text-muted-foreground">·</span>
+            <span className="font-sans text-sm font-semibold text-foreground">10 km</span>
+            <span className="text-muted-foreground">·</span>
+            <span className="font-sans text-sm font-semibold text-foreground">{formattedPrice}</span>
+          </div>
 
-        {/* Payment badge */}
-        <div className="flex justify-center mt-4">
-          <span className="px-3 py-1.5 rounded-full bg-accent-soft font-sans text-xs font-semibold text-accent-text">
-            Pagado · {paymentMethod} *4821
+          {/* Payment badge */}
+          <span className="mt-3 px-3 py-1 rounded-full bg-success-muted font-sans text-xs font-semibold text-success-text">
+            ✓ Pagado · {paymentMethod} *4821
           </span>
         </div>
 
-        <div className="border-t border-border mt-6 mb-5" />
+        <div className="border-t border-border mt-6 mb-4" />
 
-        <p className="font-sans text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-3">
+        <p className="font-sans text-sm font-semibold text-foreground mb-3">
           Registrar como gasto
         </p>
-        <div className="rounded-xl bg-muted px-4 py-3 flex items-center gap-3">
-          <div
-            className="w-9 h-9 rounded-xl bg-background flex items-center justify-center text-lg shrink-0"
-            aria-hidden
-          >
-            🚕
+
+        {/* Expense card */}
+        <div className="rounded-xl bg-muted px-4 py-3 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <span className="text-lg" aria-hidden>🚕</span>
+            <div>
+              <p className="font-sans text-[13px] text-foreground">Transporte</p>
+              <p className="font-sans text-xs text-muted-foreground">
+                Inditex A Coruña · 15-17 jun
+              </p>
+            </div>
           </div>
-          <div className="flex-1 min-w-0">
-            <p className="font-sans text-sm font-semibold text-foreground">Transporte</p>
-            <p className="font-sans text-xs text-muted-foreground truncate">{destination}</p>
+          <div className="flex items-center gap-1.5">
+            <span className="font-sans text-[13px] font-semibold text-foreground">
+              {formattedPrice}
+            </span>
+            <ChevronRight size={14} strokeWidth={1.5} className="text-muted-foreground" />
           </div>
-          <span className="font-sans text-sm font-semibold text-foreground shrink-0">
-            {formattedPrice}
-          </span>
         </div>
       </div>
 
@@ -420,13 +410,14 @@ function ArrivedView({
       <div className="shrink-0 px-5 pt-4 pb-safe border-t border-border bg-background flex flex-col gap-2">
         <Button
           variant="accent"
+          size="lg"
           className="w-full"
           loading={confirming}
           onClick={handleConfirm}
         >
           Confirmar gasto
         </Button>
-        <Button variant="ghost" className="w-full" onClick={onBack}>
+        <Button variant="ghost" className="w-full h-11" onClick={onBack}>
           Ahora no
         </Button>
       </div>
@@ -443,7 +434,6 @@ export function CabifyTracker({
   driverName,
   driverCar,
   driverPlate,
-  driverRating,
   eta,
   estimatedPrice,
   paymentMethod,
@@ -467,34 +457,26 @@ export function CabifyTracker({
 
   return (
     <div className={cn('flex flex-col h-full', className)}>
-      {/* Map fills remaining space */}
+      {/* Map */}
       <div className="flex-1 relative overflow-hidden">
         <SchematicMap state={state} />
       </div>
 
       {/* Bottom sheet */}
-      <div className="bg-background rounded-t-3xl px-5 pt-5 pb-safe shadow-[0_-4px_20px_rgba(0,0,0,0.08)]">
-        {state === 'incoming' && (
+      <div className="bg-background rounded-t-3xl px-5 pt-4 pb-safe shadow-[0_-4px_20px_rgba(0,0,0,0.08)]">
+        {(state === 'incoming' || state === 'live') && (
           <IncomingContent
             eta={eta}
             driverName={driverName}
             driverCar={driverCar}
             driverPlate={driverPlate}
-            driverRating={driverRating}
-            estimatedPrice={estimatedPrice}
-            paymentMethod={paymentMethod}
-            onCall={onCall}
-            onCancel={onCancel}
-          />
-        )}
-        {state === 'live' && (
-          <LiveContent
-            eta={eta}
             origin={origin}
             destination={destination}
             estimatedPrice={estimatedPrice}
             paymentMethod={paymentMethod}
             onCall={onCall}
+            onCancel={onCancel}
+            isLive={state === 'live'}
           />
         )}
         {state === 'inprogress' && (
@@ -504,6 +486,10 @@ export function CabifyTracker({
             eta={eta}
             estimatedPrice={estimatedPrice}
             paymentMethod={paymentMethod}
+            driverName={driverName}
+            driverCar={driverCar}
+            driverPlate={driverPlate}
+            onCall={onCall}
             onMarkArrived={onMarkArrived}
           />
         )}
