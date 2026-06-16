@@ -175,7 +175,7 @@ export function RevolvedExpenseConfirm({
       </div>
 
       {/* Sticky bottom */}
-      <div className="shrink-0 px-5 pb-8 pt-4 border-t border-border bg-background">
+      <div className="sticky-cta border-t border-border px-5 pt-4">
         <Button
           variant="accent"
           size="lg"

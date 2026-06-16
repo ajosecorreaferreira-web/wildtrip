@@ -18,13 +18,11 @@ export function ManagerPage() {
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
-      <div className="flex-1 max-w-2xl mx-auto w-full px-4 py-8 pb-24">
-        <div className="mb-6">
-          <h1 className="font-display text-3xl font-normal tracking-tight text-foreground">
-            Sara García
-          </h1>
-          <p className="font-sans text-sm text-muted-foreground mt-1">Manager Studio</p>
-        </div>
+      <div className="bg-primary px-4 py-4 shrink-0">
+        <p className="font-sans text-xs text-primary-foreground/60">Panel de Manager</p>
+        <h1 className="font-display text-2xl text-primary-foreground">Sara García</h1>
+      </div>
+      <div className="flex-1 max-w-2xl mx-auto w-full px-4 py-6 pb-nav">
         <DashboardManager
           kpi={{
             ...MOCK_MANAGER_KPI,

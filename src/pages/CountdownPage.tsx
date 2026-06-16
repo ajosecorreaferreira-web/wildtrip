@@ -6,10 +6,8 @@ export function CountdownPage() {
   const navigate = useNavigate()
 
   return (
-    <div
-      className="min-h-screen flex flex-col px-6 py-10 max-w-md mx-auto"
-      style={{ background: 'oklch(0.08 0.04 264)' }}
-    >
+    <div className="min-h-screen bg-[oklch(0.08_0.04_264)] flex flex-col max-w-md mx-auto">
+      <div className="flex-1 overflow-y-auto px-6 py-10 pb-4">
       {/* Time */}
       <div className="mt-8">
         <p className="font-display text-[72px] text-white leading-none tracking-tight">
@@ -99,8 +97,14 @@ export function CountdownPage() {
         </div>
       </div>
 
-      {/* Actions */}
-      <div className="flex flex-col gap-3 mt-8">
+      {/* Footer note */}
+      <p className="font-sans text-xs text-center mt-10 pb-2" style={{ color: 'rgba(255,255,255,0.25)' }}>
+        Wildtrip · A Coruña · Inditex Arteixo · 15-17 jun
+      </p>
+      </div>
+
+      {/* Sticky CTAs */}
+      <div className="sticky-cta-navy flex flex-col gap-3">
         <Button
           variant="accent"
           size="lg"
@@ -116,11 +120,6 @@ export function CountdownPage() {
           Ver itinerario completo
         </button>
       </div>
-
-      {/* Footer note */}
-      <p className="font-sans text-xs text-center mt-auto pt-10" style={{ color: 'rgba(255,255,255,0.25)' }}>
-        Wildtrip · A Coruña · Inditex Arteixo · 15-17 jun
-      </p>
     </div>
   )
 }

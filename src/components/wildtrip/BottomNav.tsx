@@ -49,10 +49,9 @@ export function BottomNav({ role }: BottomNavProps) {
 
   return (
     <nav
-      className="fixed bottom-0 left-0 right-0 z-50 bg-background border-t border-border"
-      style={{ height: 64 }}
+      className="fixed bottom-0 left-0 right-0 z-50 bg-background border-t border-border pb-safe"
     >
-      <div className="max-w-md mx-auto h-full flex items-center">
+      <div className="max-w-md mx-auto h-[64px] flex items-center">
         {tabs.map((tab) => {
           const Icon = tab.icon
           const isActive = !tab.disabled && (

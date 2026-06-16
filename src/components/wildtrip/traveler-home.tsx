@@ -1,13 +1,14 @@
 import {
   Plus,
-  MapPin,
-  Calendar,
-  Clock,
   Receipt,
   AlertCircle,
   Plane,
+  Check,
+  CheckCircle2,
 } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
 import { cn } from '@/lib/utils'
+import { Button, StatusBadge } from '@/components/wildtrip/atoms'
 import { TripTimeline } from '@/components/wildtrip/trip-timeline'
 import type { TimelineDay } from '@/components/wildtrip/trip-timeline'
 
@@ -74,92 +75,52 @@ function EmptyState({ onNewTrip }: { onNewTrip?: () => void }) {
   )
 }
 
-function CountdownChip({ days }: { days: number }) {
-  const colorClass =
-    days <= 1
-      ? 'bg-[var(--destructive-muted)] text-destructive'
-      : days <= 3
-        ? 'bg-[var(--warning-muted)] text-[var(--warning-text)]'
-        : 'bg-[var(--accent-soft)] text-[var(--accent-text)]'
 
+const UPCOMING_BULLETS = [
+  'Te avisaremos cuando esté aprobado',
+  'Las reservas se harán automáticamente',
+  'El cargo va directamente a Jungle',
+]
+
+function UpcomingState() {
+  const navigate = useNavigate()
   return (
-    <span
-      className={cn(
-        'inline-flex items-center gap-1.5 rounded-full px-3 py-0.5',
-        'text-xs font-semibold uppercase tracking-widest',
-        colorClass
-      )}
-    >
-      <Clock size={12} strokeWidth={1.5} />
-      {days === 0 ? 'Hoy' : days === 1 ? 'Mañana' : `En ${days} días`}
-    </span>
-  )
-}
-
-function UpcomingState({
-  trip,
-  onNewTrip,
-  onUploadTicket,
-}: {
-  trip: UpcomingTrip
-  onNewTrip?: () => void
-  onUploadTicket?: () => void
-}) {
-  return (
-    <div className="space-y-5 animate-page-enter">
-      <div className="rounded-2xl border bg-card p-5 space-y-4">
-        <div className="flex items-start justify-between gap-3">
-          <div>
-            <h2 className="font-display text-3xl font-normal tracking-tight text-foreground">
-              {trip.destination}
-            </h2>
-            <p className="text-sm text-muted-foreground mt-0.5">{trip.purpose}</p>
-          </div>
-          <CountdownChip days={trip.daysUntil} />
-        </div>
-
-        <div className="flex flex-col gap-2">
-          <div className="flex items-center gap-2 text-sm text-muted-foreground">
-            <Calendar size={20} strokeWidth={1.5} className="shrink-0" />
-            <span>Sale el {trip.startDate}</span>
-          </div>
-          <div className="flex items-center gap-2 text-sm text-muted-foreground">
-            <MapPin size={20} strokeWidth={1.5} className="shrink-0" />
-            <span>{trip.destination}</span>
-          </div>
-        </div>
-
-        <div className="flex gap-3 pt-1">
-          {onUploadTicket && (
-            <button
-              onClick={onUploadTicket}
-              className={cn(
-                'flex-1 inline-flex items-center justify-center gap-2',
-                'rounded-xl min-h-[44px] px-4 text-sm font-medium',
-                'bg-[var(--accent-soft)] text-[var(--accent-text)] hover:opacity-90',
-                'transition-opacity duration-150'
-              )}
-            >
-              <Receipt size={20} strokeWidth={1.5} />
-              Añadir ticket
-            </button>
-          )}
-          {onNewTrip && (
-            <button
-              onClick={onNewTrip}
-              className={cn(
-                'flex-1 inline-flex items-center justify-center gap-2',
-                'rounded-xl min-h-[44px] px-4 text-sm font-medium',
-                'bg-primary text-primary-foreground hover:bg-[var(--primary-hover)]',
-                'transition-colors duration-200'
-              )}
-            >
-              <Plus size={20} strokeWidth={1.5} />
-              Nuevo viaje
-            </button>
-          )}
-        </div>
+    <div className="flex flex-col items-center py-8 animate-page-enter">
+      <div className="w-16 h-16 rounded-full bg-accent flex items-center justify-center">
+        <Check size={32} strokeWidth={1.5} className="text-accent-foreground" />
       </div>
+      <h2 className="font-display text-[26px] font-normal text-foreground mt-4 text-center">
+        Solicitud enviada.
+      </h2>
+      <p className="font-sans text-sm text-muted-foreground mt-2 text-center">
+        Está en manos de Sara García.{' '}
+        Te avisamos cuando lo apruebe.
+      </p>
+
+      <div className="bg-muted rounded-xl p-4 mt-6 w-full">
+        <p className="font-sans text-xs text-muted-foreground">A Coruña · Inditex Arteixo</p>
+        <p className="font-sans text-sm font-semibold text-foreground mt-1">
+          15–17 jun · 560€ estimados
+        </p>
+        <StatusBadge status="pending" className="mt-2" />
+      </div>
+
+      <div className="w-full mt-6 space-y-3">
+        {UPCOMING_BULLETS.map((text, i) => (
+          <div key={i} className="flex gap-2 items-start">
+            <CheckCircle2 size={16} strokeWidth={1.5} className="text-accent shrink-0 mt-0.5" />
+            <p className="font-sans text-sm text-foreground">{text}</p>
+          </div>
+        ))}
+      </div>
+
+      <Button
+        variant="ghost"
+        className="w-full mt-8"
+        onClick={() => navigate('/traveler')}
+      >
+        Volver al inicio
+      </Button>
     </div>
   )
 }
@@ -267,13 +228,7 @@ function TravelerHome({
   return (
     <div className={cn('w-full', className)}>
       {state === 'empty' && <EmptyState onNewTrip={onNewTrip} />}
-      {state === 'upcoming' && upcoming && (
-        <UpcomingState
-          trip={upcoming}
-          onNewTrip={onNewTrip}
-          onUploadTicket={onUploadTicket}
-        />
-      )}
+      {state === 'upcoming' && <UpcomingState />}
       {state === 'in_progress' && active && (
         <InProgressState trip={active} onUploadTicket={onUploadTicket} />
       )}

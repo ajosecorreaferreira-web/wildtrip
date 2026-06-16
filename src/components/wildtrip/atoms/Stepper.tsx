@@ -3,10 +3,11 @@ import { cn } from '@/lib/utils'
 export interface StepperProps {
   steps: number
   current: number
+  invert?: boolean
   className?: string
 }
 
-export function Stepper({ steps, current, className }: StepperProps) {
+export function Stepper({ steps, current, invert = false, className }: StepperProps) {
   return (
     <div
       className={cn('flex gap-1', className)}
@@ -28,8 +29,8 @@ export function Stepper({ steps, current, className }: StepperProps) {
               isCompleted
                 ? 'bg-accent'
                 : isActive
-                ? 'bg-primary'
-                : 'bg-border'
+                ? invert ? 'bg-white' : 'bg-primary'
+                : invert ? 'bg-white/30' : 'bg-border'
             )}
           />
         )

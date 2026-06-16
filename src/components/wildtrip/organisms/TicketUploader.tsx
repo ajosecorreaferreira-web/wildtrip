@@ -169,10 +169,6 @@ function StepConfirm({
         value={date}
         onChange={(e) => onDate(e.target.value)}
       />
-      <Button variant="primary" size="base" onClick={onNext}>
-        Confirmar datos
-        <ChevronRight size={16} strokeWidth={1.5} />
-      </Button>
     </div>
   )
 }
@@ -261,15 +257,6 @@ function StepAssociate({
         </div>
       </div>
 
-      <Button
-        variant="primary"
-        size="base"
-        disabled={!selectedTripId}
-        loading={loading}
-        onClick={onNext}
-      >
-        Guardar gasto
-      </Button>
     </div>
   )
 }
@@ -338,49 +325,78 @@ export function TicketUploader({ trips, onComplete, onCancel, className }: Ticke
   }
 
   return (
-    <div
-      className={cn('rounded-3xl bg-card border border-border px-6 py-5 w-full max-w-sm mx-auto', className)}
-      style={{ boxShadow: 'var(--shadow-lg)' }}
-    >
-      {/* Header */}
-      <div className="flex items-center justify-between mb-5">
-        <h2 className="font-sans text-base font-semibold text-foreground">Añadir ticket</h2>
-        {step < 5 && (
-          <button
-            onClick={onCancel}
-            aria-label="Cancelar"
-            className="w-8 h-8 flex items-center justify-center rounded-xl text-muted-foreground hover:bg-muted"
-          >
-            <X size={16} strokeWidth={1.5} />
-          </button>
-        )}
+    <div className={cn('flex flex-col flex-1 bg-background', className)}>
+      {/* Scrollable content */}
+      <div className="flex-1 overflow-y-auto px-4 py-4 pb-4">
+        <div
+          className="rounded-3xl bg-card border border-border px-6 py-5 w-full max-w-sm mx-auto"
+          style={{ boxShadow: 'var(--shadow-lg)' }}
+        >
+          {/* Header */}
+          <div className="flex items-center justify-between mb-5">
+            <h2 className="font-sans text-base font-semibold text-foreground">Añadir ticket</h2>
+            {step < 5 && (
+              <button
+                onClick={onCancel}
+                aria-label="Cancelar"
+                className="w-8 h-8 flex items-center justify-center rounded-xl text-muted-foreground hover:bg-muted"
+              >
+                <X size={16} strokeWidth={1.5} />
+              </button>
+            )}
+          </div>
+
+          {/* Stepper */}
+          {step < 5 && <Stepper steps={5} current={step} className="mb-6" />}
+
+          {step === 1 && <StepPhoto onFile={handleFile} />}
+          {step === 2 && <StepOcr preview={preview} />}
+          {step === 3 && (
+            <StepConfirm
+              merchant={merchant} amount={amount} date={date}
+              onMerchant={setMerchant} onAmount={setAmount} onDate={setDate}
+              onNext={() => setStep(4)}
+            />
+          )}
+          {step === 4 && (
+            <StepAssociate
+              trips={trips}
+              selectedTripId={tripId}
+              onSelectTrip={setTripId}
+              selectedCategory={category}
+              onSelectCategory={setCategory}
+              onNext={handleComplete}
+              loading={submitting}
+            />
+          )}
+          {step === 5 && (
+            <StepSuccess merchant={merchant} amount={amount} category={category} onDone={onCancel} />
+          )}
+        </div>
       </div>
 
-      {/* Stepper */}
-      {step < 5 && <Stepper steps={5} current={step} className="mb-6" />}
-
-      {step === 1 && <StepPhoto onFile={handleFile} />}
-      {step === 2 && <StepOcr preview={preview} />}
+      {/* Sticky CTAs */}
       {step === 3 && (
-        <StepConfirm
-          merchant={merchant} amount={amount} date={date}
-          onMerchant={setMerchant} onAmount={setAmount} onDate={setDate}
-          onNext={() => setStep(4)}
-        />
+        <div className="sticky-cta">
+          <Button variant="primary" size="base" className="w-full max-w-sm mx-auto flex" onClick={() => setStep(4)}>
+            Confirmar datos
+            <ChevronRight size={16} strokeWidth={1.5} />
+          </Button>
+        </div>
       )}
       {step === 4 && (
-        <StepAssociate
-          trips={trips}
-          selectedTripId={tripId}
-          onSelectTrip={setTripId}
-          selectedCategory={category}
-          onSelectCategory={setCategory}
-          onNext={handleComplete}
-          loading={submitting}
-        />
-      )}
-      {step === 5 && (
-        <StepSuccess merchant={merchant} amount={amount} category={category} onDone={onCancel} />
+        <div className="sticky-cta">
+          <Button
+            variant="primary"
+            size="base"
+            className="w-full max-w-sm mx-auto flex"
+            disabled={!tripId}
+            loading={submitting}
+            onClick={handleComplete}
+          >
+            Guardar gasto
+          </Button>
+        </div>
       )}
     </div>
   )

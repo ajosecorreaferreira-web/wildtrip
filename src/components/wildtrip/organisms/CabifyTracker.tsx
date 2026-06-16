@@ -44,10 +44,11 @@ function SchematicMap({
   return (
     <svg
       viewBox="0 0 390 220"
-      className="w-full rounded-xl overflow-hidden"
+      className="w-full h-full"
       style={{ background: '#F0EDE8' }}
       aria-label="Mapa esquemático de ruta"
       role="img"
+      preserveAspectRatio="xMidYMid slice"
     >
       {/* Street blocks */}
       <rect x="0"   y="60"  width="390" height="20" fill="#D8D4CF" opacity="0.8" rx="2" />
@@ -142,28 +143,23 @@ function DriverRow({
 
 // ─── State views ──────────────────────────────────────────────────────────────
 
-function IncomingView({
+function IncomingContent({
   eta,
   driverName,
   driverCar,
   driverPlate,
   driverRating,
-  destination,
   onCall,
-  onCancel,
 }: {
   eta: number
   driverName: string
   driverCar: string
   driverPlate: string
   driverRating: number
-  destination: string
   onCall?: () => void
-  onCancel?: () => void
 }) {
   return (
     <div className="flex flex-col gap-4">
-      <SchematicMap state="incoming" destination={destination} />
       <div className="flex items-center justify-between">
         <div>
           <p className="font-display text-4xl text-foreground leading-none">{eta}</p>
@@ -175,22 +171,16 @@ function IncomingView({
         name={driverName} car={driverCar} plate={driverPlate}
         rating={driverRating} onCall={onCall}
       />
-      <div className="flex gap-2">
-        <Button variant="ghost" size="base" className="flex-1" onClick={onCancel}>
-          Cancelar
-        </Button>
-      </div>
     </div>
   )
 }
 
-function LiveView({
+function LiveContent({
   eta,
   driverName,
   driverCar,
   driverPlate,
   driverRating,
-  destination,
   onCall,
 }: {
   eta: number
@@ -198,12 +188,10 @@ function LiveView({
   driverCar: string
   driverPlate: string
   driverRating: number
-  destination: string
   onCall?: () => void
 }) {
   return (
     <div className="flex flex-col gap-4">
-      <SchematicMap state="live" destination={destination} />
       <div className="flex items-center gap-3">
         <div className="flex items-center gap-1.5">
           <div className="w-2 h-2 rounded-full bg-accent animate-ping" />
@@ -219,7 +207,7 @@ function LiveView({
   )
 }
 
-function InProgressView({
+function InProgressContent({
   origin,
   destination,
   eta,
@@ -234,7 +222,6 @@ function InProgressView({
 }) {
   return (
     <div className="flex flex-col gap-4">
-      <SchematicMap state="inprogress" destination={destination} />
       <div className="flex items-center gap-2">
         <div className="flex-1 min-w-0">
           <p className="font-sans text-xs text-muted-foreground truncate">{origin}</p>
@@ -368,44 +355,45 @@ export function CabifyTracker({
   estimatedPrice,
   paymentMethod,
   onCall,
-  onCancel,
   className,
 }: CabifyTrackerProps) {
   return (
-    <div
-      className={cn(
-        'rounded-2xl bg-card border border-border px-5 py-5',
-        className,
-      )}
-      style={{ boxShadow: 'var(--shadow-md)' }}
-    >
-      {state === 'incoming' && (
-        <IncomingView
-          eta={eta} driverName={driverName} driverCar={driverCar}
-          driverPlate={driverPlate} driverRating={driverRating}
-          destination={destination} onCall={onCall} onCancel={onCancel}
-        />
-      )}
-      {state === 'live' && (
-        <LiveView
-          eta={eta} driverName={driverName} driverCar={driverCar}
-          driverPlate={driverPlate} driverRating={driverRating}
-          destination={destination} onCall={onCall}
-        />
-      )}
-      {state === 'inprogress' && (
-        <InProgressView
-          origin={origin} destination={destination}
-          eta={eta} estimatedPrice={estimatedPrice} paymentMethod={paymentMethod}
-        />
-      )}
-      {state === 'arrived' && (
-        <ArrivedView
-          destination={destination}
-          estimatedPrice={estimatedPrice}
-          paymentMethod={paymentMethod}
-        />
-      )}
+    <div className={cn('flex flex-col flex-1', className)}>
+      {/* Map */}
+      <div className="min-h-[55vh] overflow-hidden" style={{ background: '#F0EDE8' }}>
+        <SchematicMap state={state} destination={destination} />
+      </div>
+
+      {/* Bottom sheet */}
+      <div className="bg-background rounded-t-3xl -mt-6 px-5 py-5 flex-1">
+        {state === 'incoming' && (
+          <IncomingContent
+            eta={eta} driverName={driverName} driverCar={driverCar}
+            driverPlate={driverPlate} driverRating={driverRating}
+            onCall={onCall}
+          />
+        )}
+        {state === 'live' && (
+          <LiveContent
+            eta={eta} driverName={driverName} driverCar={driverCar}
+            driverPlate={driverPlate} driverRating={driverRating}
+            onCall={onCall}
+          />
+        )}
+        {state === 'inprogress' && (
+          <InProgressContent
+            origin={origin} destination={destination}
+            eta={eta} estimatedPrice={estimatedPrice} paymentMethod={paymentMethod}
+          />
+        )}
+        {state === 'arrived' && (
+          <ArrivedView
+            destination={destination}
+            estimatedPrice={estimatedPrice}
+            paymentMethod={paymentMethod}
+          />
+        )}
+      </div>
     </div>
   )
 }

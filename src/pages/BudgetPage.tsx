@@ -28,7 +28,7 @@ export function BudgetPage() {
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
-      <div className="flex-1 max-w-md mx-auto w-full px-4 py-8 pb-24 space-y-5">
+      <div className="flex-1 max-w-md mx-auto w-full px-4 py-8 pb-nav space-y-5">
         <div>
           <h1 className="font-display text-3xl font-normal tracking-tight text-foreground">
             Presupuesto

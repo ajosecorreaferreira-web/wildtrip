@@ -8,7 +8,7 @@ export function TimelinePage() {
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
-      <div className="flex-1 max-w-md mx-auto w-full px-4 pt-4 pb-24">
+      <div className="flex-1 max-w-md mx-auto w-full px-4 pt-4 pb-nav">
         <TripTimeline
           days={MOCK_TIMELINE_DAYS_ORG}
           currentDay={MOCK_BUDGET.currentDay}

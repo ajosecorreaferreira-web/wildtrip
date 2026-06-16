@@ -24,8 +24,9 @@ export function CabifyPage() {
   }, [state])
 
   return (
-    <div className="min-h-screen bg-background max-w-md mx-auto px-4 py-8 flex flex-col gap-4">
+    <div className="flex flex-col min-h-screen bg-background max-w-md mx-auto">
       <CabifyTracker
+        className="flex-1"
         state={state}
         origin="LCG · Aeropuerto A Coruña"
         destination="Inditex Arteixo"
@@ -40,26 +41,43 @@ export function CabifyPage() {
         onCancel={() => navigate('/traveler/timeline')}
       />
 
+      {state === 'incoming' && (
+        <div className="sticky-cta">
+          <Button
+            variant="ghost"
+            size="base"
+            className="w-full"
+            onClick={() => navigate('/traveler/timeline')}
+          >
+            Cancelar
+          </Button>
+        </div>
+      )}
+
       {state === 'inprogress' && (
-        <Button
-          variant="accent"
-          size="base"
-          className="w-full"
-          onClick={() => setState('arrived')}
-        >
-          Ya llegué
-        </Button>
+        <div className="sticky-cta">
+          <Button
+            variant="accent"
+            size="base"
+            className="w-full"
+            onClick={() => setState('arrived')}
+          >
+            Ya llegué
+          </Button>
+        </div>
       )}
 
       {state === 'arrived' && (
-        <Button
-          variant="ghost"
-          size="base"
-          className="w-full"
-          onClick={() => navigate('/traveler/timeline')}
-        >
-          Volver al itinerario
-        </Button>
+        <div className="sticky-cta">
+          <Button
+            variant="ghost"
+            size="base"
+            className="w-full"
+            onClick={() => navigate('/traveler/timeline')}
+          >
+            Volver al itinerario
+          </Button>
+        </div>
       )}
     </div>
   )

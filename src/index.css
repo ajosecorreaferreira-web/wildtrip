@@ -408,3 +408,56 @@ body {
     min-height: 44px;
   }
 }
+
+/* ============================================================
+   SAFE AREA UTILITIES
+   Requiere viewport-fit=cover en el meta viewport de index.html
+   ============================================================ */
+
+.pb-safe {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+.pb-safe-4 {
+  padding-bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
+}
+
+.mb-safe {
+  margin-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+.pb-nav {
+  padding-bottom: calc(4rem + env(safe-area-inset-bottom, 0px));
+}
+
+/* ============================================================
+   STICKY CTA PATTERNS
+   ============================================================ */
+
+.sticky-cta {
+  position: sticky;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 12px 16px;
+  padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+  background: linear-gradient(
+    to top,
+    var(--background) 70%,
+    transparent 100%
+  );
+  z-index: 10;
+}
+
+.sticky-cta-navy {
+  position: sticky;
+  bottom: 0;
+  padding: 12px 16px;
+  padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+  background: linear-gradient(
+    to top,
+    oklch(0.08 0.04 264) 70%,
+    transparent 100%
+  );
+  z-index: 10;
+}
