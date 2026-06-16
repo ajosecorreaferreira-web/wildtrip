@@ -10,6 +10,7 @@ import { CabifyPage }        from '@/pages/CabifyPage'
 import { HotelPage }         from '@/pages/HotelPage'
 import { BudgetPage }        from '@/pages/BudgetPage'
 import { TimelinePage }      from '@/pages/TimelinePage'
+import { BoardingPassPage }  from '@/pages/BoardingPassPage'
 import { ManagerPage }       from '@/pages/ManagerPage'
 import { QuickApprovalPage } from '@/pages/QuickApprovalPage'
 import { FinancePage }       from '@/pages/FinancePage'
@@ -30,6 +31,7 @@ function App() {
             <Route path="/traveler/hotel"        element={<HotelPage />} />
             <Route path="/traveler/budget"       element={<BudgetPage />} />
             <Route path="/traveler/timeline"     element={<TimelinePage />} />
+            <Route path="/traveler/boarding-pass" element={<BoardingPassPage />} />
             <Route path="/manager"               element={<ManagerPage />} />
             <Route path="/manager/approve/:id"   element={<QuickApprovalPage />} />
             <Route path="/finance"               element={<FinancePage />} />

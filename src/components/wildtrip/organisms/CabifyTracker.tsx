@@ -1,9 +1,7 @@
 import * as React from 'react'
-import { MapPin, Phone, Star } from 'lucide-react'
+import { MapPin, Phone, Star, CheckCircle2, ArrowRight } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import { Button, StatusBadge } from '@/components/wildtrip/atoms'
-import { EXPENSE_EMOJIS } from '@/components/wildtrip/molecules'
-import type { ExpenseCategory } from '@/components/wildtrip/molecules'
+import { Button } from '@/components/wildtrip/atoms'
 
 export type TrackerState = 'incoming' | 'live' | 'inprogress' | 'arrived'
 
@@ -84,7 +82,6 @@ function SchematicMap({ state }: { state: TrackerState }) {
       <line x1="155" y1="0"   x2="155" y2="280" stroke="white" strokeWidth="4" />
       <line x1="260" y1="0"   x2="260" y2="280" stroke="white" strokeWidth="4" />
 
-      {/* Subtle glow */}
       <rect width="390" height="280" fill="url(#mapGlow)" />
 
       {/* Route */}
@@ -117,7 +114,6 @@ function SchematicMap({ state }: { state: TrackerState }) {
         <animate attributeName="r"       values="10;18;10" dur="2s" repeatCount="indefinite" />
         <animate attributeName="opacity" values="0.2;0;0.2" dur="2s" repeatCount="indefinite" />
       </circle>
-      {/* Conductor dot */}
       <circle cx={car.x} cy={car.y} r="6" fill="oklch(0.55 0.18 162)" />
     </svg>
   )
@@ -151,9 +147,9 @@ function DriverRow({
           <Star size={11} strokeWidth={1.5} className="text-warning fill-warning" aria-hidden />
           <span className="font-sans text-xs text-muted-foreground">{rating}</span>
         </div>
-        {!compact && (
-          <p className="font-sans text-xs text-muted-foreground">{car} · {plate}</p>
-        )}
+        <p className="font-sans text-xs text-muted-foreground">
+          {compact ? plate : `${car} · ${plate}`}
+        </p>
       </div>
       {onCall && (
         <button
@@ -168,7 +164,7 @@ function DriverRow({
   )
 }
 
-// ─── State views ──────────────────────────────────────────────────────────────
+// ─── State Views ──────────────────────────────────────────────────────────────
 
 function IncomingContent({
   eta,
@@ -176,6 +172,8 @@ function IncomingContent({
   driverCar,
   driverPlate,
   driverRating,
+  estimatedPrice,
+  paymentMethod,
   onCall,
   onCancel,
 }: {
@@ -184,57 +182,87 @@ function IncomingContent({
   driverCar: string
   driverPlate: string
   driverRating: number
+  estimatedPrice: number
+  paymentMethod: string
   onCall?: () => void
   onCancel?: () => void
 }) {
   return (
     <div className="flex flex-col gap-4">
       <div className="flex items-center justify-between">
-        <div>
-          <p className="font-display text-4xl text-foreground leading-none">{eta}</p>
-          <p className="font-sans text-xs text-muted-foreground mt-1">minutos</p>
+        <div className="flex items-center gap-1.5">
+          <div className="w-2 h-2 rounded-full bg-foreground shrink-0" />
+          <span className="font-sans text-xs font-semibold text-foreground uppercase tracking-wide">
+            En camino
+          </span>
         </div>
-        <StatusBadge status="in_progress" size="base" />
+        <div className="text-right">
+          <p className="font-display text-4xl text-foreground leading-none">{eta}</p>
+          <p className="font-sans text-xs text-muted-foreground mt-0.5">minutos</p>
+        </div>
       </div>
       <DriverRow
         name={driverName} car={driverCar} plate={driverPlate}
         rating={driverRating} onCall={onCall}
       />
-      <Button variant="ghost" className="w-full mt-2" onClick={onCancel}>
-        Cancelar
-      </Button>
+      <div className="flex items-center justify-between rounded-xl bg-muted px-3 py-2.5">
+        <span className="font-sans text-sm font-semibold text-foreground">~{estimatedPrice}€</span>
+        <span className="font-sans text-xs text-muted-foreground">{paymentMethod}</span>
+      </div>
+      <div className="flex gap-2">
+        <Button variant="ghost" className="flex-1" onClick={onCall}>Llamar</Button>
+        <Button variant="ghost" className="flex-1" onClick={onCancel}>Cancelar</Button>
+      </div>
     </div>
   )
 }
 
 function LiveContent({
   eta,
-  driverName,
-  driverCar,
-  driverPlate,
-  driverRating,
+  origin,
+  destination,
+  estimatedPrice,
+  paymentMethod,
   onCall,
 }: {
   eta: number
-  driverName: string
-  driverCar: string
-  driverPlate: string
-  driverRating: number
+  origin: string
+  destination: string
+  estimatedPrice: number
+  paymentMethod: string
   onCall?: () => void
 }) {
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex items-center gap-3">
+      <div className="flex items-center justify-between">
         <div className="flex items-center gap-1.5">
           <div className="w-2 h-2 rounded-full bg-accent animate-ping" />
-          <span className="font-sans text-xs font-semibold text-accent uppercase tracking-wide">En vivo</span>
+          <span className="font-sans text-xs font-semibold text-accent uppercase tracking-wide">
+            En vivo
+          </span>
         </div>
-        <span className="font-sans text-sm font-semibold text-foreground ml-auto">{eta} min</span>
+        <div className="flex items-center gap-2">
+          <span className="font-sans text-sm font-semibold text-foreground">{eta} min</span>
+          {onCall && (
+            <button
+              onClick={onCall}
+              aria-label="Llamar al conductor"
+              className="w-8 h-8 rounded-full border border-border flex items-center justify-center hover:bg-muted transition-colors"
+            >
+              <Phone size={14} strokeWidth={1.5} className="text-foreground" />
+            </button>
+          )}
+        </div>
       </div>
-      <DriverRow
-        name={driverName} car={driverCar} plate={driverPlate}
-        rating={driverRating} compact onCall={onCall}
-      />
+      <div className="flex items-center gap-2 min-w-0">
+        <p className="font-sans text-sm text-muted-foreground truncate flex-1">{origin}</p>
+        <ArrowRight size={12} strokeWidth={1.5} className="text-muted-foreground shrink-0" />
+        <p className="font-sans text-sm font-semibold text-foreground truncate flex-1 text-right">{destination}</p>
+      </div>
+      <div className="flex items-center justify-between rounded-xl bg-muted px-3 py-2.5">
+        <span className="font-sans text-sm font-semibold text-foreground">~{estimatedPrice}€</span>
+        <span className="font-sans text-xs text-muted-foreground">{paymentMethod}</span>
+      </div>
     </div>
   )
 }
@@ -299,7 +327,9 @@ function ArrivedView({
 }) {
   const [confirming, setConfirming] = React.useState(false)
   const [confirmed, setConfirmed] = React.useState(false)
-  const selectedCategory: ExpenseCategory = 'transport'
+
+  const formattedPrice =
+    new Intl.NumberFormat('es-ES', { minimumFractionDigits: 2 }).format(estimatedPrice) + '€'
 
   async function handleConfirm() {
     setConfirming(true)
@@ -310,76 +340,97 @@ function ArrivedView({
 
   if (confirmed) {
     return (
-      <div className="flex flex-col items-center gap-3 py-6 animate-success-pop">
-        <div className="w-12 h-12 rounded-full bg-success-muted flex items-center justify-center">
-          <span className="text-xl" aria-hidden>{EXPENSE_EMOJIS[selectedCategory]}</span>
+      <>
+        <div className="flex flex-col items-center justify-center flex-1 gap-4 px-5">
+          <div className="w-14 h-14 rounded-full bg-accent-soft flex items-center justify-center">
+            <CheckCircle2 size={28} strokeWidth={1.5} className="text-accent-text" />
+          </div>
+          <p className="font-sans text-sm font-semibold text-foreground">Gasto guardado.</p>
         </div>
-        <p className="font-sans text-sm font-semibold text-success-text">Gasto guardado.</p>
-      </div>
+        <div className="shrink-0 px-5 pb-safe pt-4">
+          <Button variant="ghost" className="w-full" onClick={onBack}>
+            Volver al itinerario
+          </Button>
+        </div>
+      </>
     )
   }
 
   return (
-    <div className="flex flex-col gap-5 animate-success-pop">
-      {/* Check */}
-      <div className="flex flex-col items-center gap-3 py-4">
-        <div className="w-16 h-16 rounded-full bg-accent flex items-center justify-center shadow-md">
-          <span className="text-2xl text-accent-foreground">✓</span>
-        </div>
-        <div className="text-center">
-          <h3 className="font-display text-2xl text-foreground">Llegaste a {destination}</h3>
-        </div>
-      </div>
-
-      {/* Trip summary */}
-      <div className="flex items-center justify-center gap-4">
-        <div className="text-center">
-          <p className="font-sans text-lg font-semibold text-foreground">{estimatedPrice}€</p>
-          <p className="font-sans text-xs text-muted-foreground">total</p>
-        </div>
-        <div className="w-px h-8 bg-border" />
-        <div className="text-center">
-          <p className="font-sans text-xs font-semibold text-muted-foreground uppercase tracking-wide">
-            Pagado
+    <>
+      <div className="flex-1 overflow-y-auto px-5 pb-4">
+        <div className="flex flex-col items-center pt-12">
+          <CheckCircle2 size={56} strokeWidth={1.5} className="text-accent" />
+          <p className="font-sans text-sm text-muted-foreground mt-4 text-center">Llegaste a</p>
+          <h2 className="font-display text-[28px] text-foreground mt-1 text-center">{destination}</h2>
+          <p className="font-sans text-xs text-muted-foreground mt-1 text-center">
+            Polígono de Sabón, Arteixo, A Coruña
           </p>
-          <p className="font-sans text-xs text-foreground">{paymentMethod}</p>
         </div>
-      </div>
 
-      {/* Expense registration */}
-      <div className="rounded-xl border border-border p-4 flex flex-col gap-3">
-        <p className="font-sans text-xs font-semibold text-muted-foreground uppercase tracking-wide">
+        {/* Stats row */}
+        <div className="flex items-center justify-center gap-5 mt-8">
+          {[
+            { value: '13 min', label: 'duración' },
+            { value: '10 km',  label: 'distancia' },
+            { value: formattedPrice, label: 'total' },
+          ].map(({ value, label }, i, arr) => (
+            <React.Fragment key={label}>
+              <div className="text-center">
+                <p className="font-sans text-base font-semibold text-foreground">{value}</p>
+                <p className="font-sans text-xs text-muted-foreground">{label}</p>
+              </div>
+              {i < arr.length - 1 && (
+                <div className="w-px h-8 bg-border shrink-0" />
+              )}
+            </React.Fragment>
+          ))}
+        </div>
+
+        {/* Payment badge */}
+        <div className="flex justify-center mt-4">
+          <span className="px-3 py-1.5 rounded-full bg-accent-soft font-sans text-xs font-semibold text-accent-text">
+            Pagado · {paymentMethod} *4821
+          </span>
+        </div>
+
+        <div className="border-t border-border mt-6 mb-5" />
+
+        <p className="font-sans text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-3">
           Registrar como gasto
         </p>
-        <div className="flex items-center gap-2">
-          <div className="w-9 h-9 rounded-xl bg-muted flex items-center justify-center text-base" aria-hidden>
+        <div className="rounded-xl bg-muted px-4 py-3 flex items-center gap-3">
+          <div
+            className="w-9 h-9 rounded-xl bg-background flex items-center justify-center text-lg shrink-0"
+            aria-hidden
+          >
             🚕
           </div>
-          <div className="flex-1">
+          <div className="flex-1 min-w-0">
             <p className="font-sans text-sm font-semibold text-foreground">Transporte</p>
-            <p className="font-sans text-xs text-muted-foreground">{destination}</p>
+            <p className="font-sans text-xs text-muted-foreground truncate">{destination}</p>
           </div>
-          <span className="font-sans text-sm font-semibold text-foreground">{estimatedPrice}€</span>
-        </div>
-        <div className="flex gap-2">
-          <Button variant="ghost" size="sm" className="flex-1">
-            Ahora no
-          </Button>
-          <Button
-            variant="primary"
-            size="sm"
-            className="flex-1"
-            loading={confirming}
-            onClick={handleConfirm}
-          >
-            Confirmar gasto
-          </Button>
+          <span className="font-sans text-sm font-semibold text-foreground shrink-0">
+            {formattedPrice}
+          </span>
         </div>
       </div>
-      <Button variant="ghost" className="w-full mt-3" onClick={onBack}>
-        Volver al itinerario
-      </Button>
-    </div>
+
+      {/* Sticky CTAs */}
+      <div className="shrink-0 px-5 pt-4 pb-safe border-t border-border bg-background flex flex-col gap-2">
+        <Button
+          variant="accent"
+          className="w-full"
+          loading={confirming}
+          onClick={handleConfirm}
+        >
+          Confirmar gasto
+        </Button>
+        <Button variant="ghost" className="w-full" onClick={onBack}>
+          Ahora no
+        </Button>
+      </div>
+    </>
   )
 }
 
@@ -401,6 +452,19 @@ export function CabifyTracker({
   onMarkArrived,
   className,
 }: CabifyTrackerProps) {
+  if (state === 'arrived') {
+    return (
+      <div className={cn('flex flex-col h-full bg-background', className)}>
+        <ArrivedView
+          destination={destination}
+          estimatedPrice={estimatedPrice}
+          paymentMethod={paymentMethod}
+          onBack={onCancel}
+        />
+      </div>
+    )
+  }
+
   return (
     <div className={cn('flex flex-col h-full', className)}>
       {/* Map fills remaining space */}
@@ -408,35 +472,39 @@ export function CabifyTracker({
         <SchematicMap state={state} />
       </div>
 
-      {/* Bottom sheet — sits naturally at the bottom */}
+      {/* Bottom sheet */}
       <div className="bg-background rounded-t-3xl px-5 pt-5 pb-safe shadow-[0_-4px_20px_rgba(0,0,0,0.08)]">
         {state === 'incoming' && (
           <IncomingContent
-            eta={eta} driverName={driverName} driverCar={driverCar}
-            driverPlate={driverPlate} driverRating={driverRating}
-            onCall={onCall} onCancel={onCancel}
+            eta={eta}
+            driverName={driverName}
+            driverCar={driverCar}
+            driverPlate={driverPlate}
+            driverRating={driverRating}
+            estimatedPrice={estimatedPrice}
+            paymentMethod={paymentMethod}
+            onCall={onCall}
+            onCancel={onCancel}
           />
         )}
         {state === 'live' && (
           <LiveContent
-            eta={eta} driverName={driverName} driverCar={driverCar}
-            driverPlate={driverPlate} driverRating={driverRating}
+            eta={eta}
+            origin={origin}
+            destination={destination}
+            estimatedPrice={estimatedPrice}
+            paymentMethod={paymentMethod}
             onCall={onCall}
           />
         )}
         {state === 'inprogress' && (
           <InProgressContent
-            origin={origin} destination={destination}
-            eta={eta} estimatedPrice={estimatedPrice} paymentMethod={paymentMethod}
-            onMarkArrived={onMarkArrived}
-          />
-        )}
-        {state === 'arrived' && (
-          <ArrivedView
+            origin={origin}
             destination={destination}
+            eta={eta}
             estimatedPrice={estimatedPrice}
             paymentMethod={paymentMethod}
-            onBack={onCancel}
+            onMarkArrived={onMarkArrived}
           />
         )}
       </div>
@@ -447,12 +515,12 @@ export function CabifyTracker({
 // --- Mock Data ---
 export const MOCK_CABIFY_TRACKER: Omit<CabifyTrackerProps, 'state'> = {
   origin: 'Hotel NH Finisterre · A Coruña',
-  destination: 'MAD T4',
+  destination: 'Inditex Arteixo',
   driverName: 'Carlos M.',
   driverCar: 'BMW Serie 3 · Gris',
   driverPlate: '2847 KTL',
   driverRating: 4.9,
   eta: 6,
-  estimatedPrice: 18,
+  estimatedPrice: 22,
   paymentMethod: 'Revolut Jungle',
 }

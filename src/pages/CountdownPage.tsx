@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom'
-import { Plane } from 'lucide-react'
+import { Plane, Bell } from 'lucide-react'
 import { Button } from '@/components/wildtrip/atoms'
 
 export function CountdownPage() {
@@ -105,6 +105,17 @@ export function CountdownPage() {
 
       {/* Sticky CTAs */}
       <div className="sticky-cta-navy flex flex-col gap-3">
+        {/* Push notification card */}
+        <div className="bg-white/10 border border-white/15 rounded-xl p-3 flex items-start gap-3">
+          <Bell size={16} strokeWidth={1.5} className="text-accent shrink-0 mt-0.5" />
+          <div className="min-w-0">
+            <p className="font-sans text-sm font-semibold text-white">Embarque abierto</p>
+            <p className="font-sans text-xs mt-0.5 truncate" style={{ color: 'rgba(255,255,255,0.7)' }}>
+              IB 3456 · Puerta B22 · Ve ya a la puerta
+            </p>
+          </div>
+        </div>
+
         <Button
           variant="accent"
           size="lg"
@@ -114,8 +125,14 @@ export function CountdownPage() {
           Ver tu Cabify
         </Button>
         <button
-          onClick={() => navigate('/traveler/timeline')}
+          onClick={() => navigate('/traveler/boarding-pass')}
           className="w-full rounded-xl min-h-[44px] px-5 font-sans text-sm font-medium text-white/70 hover:text-white border border-white/20 hover:border-white/40 transition-colors duration-200"
+        >
+          Ver boarding pass
+        </button>
+        <button
+          onClick={() => navigate('/traveler/timeline')}
+          className="w-full rounded-xl min-h-[44px] px-5 font-sans text-sm font-medium text-white/40 hover:text-white/70 transition-colors duration-200"
         >
           Ver itinerario completo
         </button>

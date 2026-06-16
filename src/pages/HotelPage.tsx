@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { useNavigate } from 'react-router-dom'
 import { HotelCheckin } from '@/components/wildtrip/organisms/HotelCheckin'
 import type { CheckinLevel } from '@/components/wildtrip/organisms/HotelCheckin'
 import { MOCK_HOTEL } from '@/data/mock'
@@ -11,6 +12,7 @@ const TABS: { id: CheckinLevel; label: string }[] = [
 ]
 
 export function HotelPage() {
+  const navigate = useNavigate()
   const [level, setLevel] = React.useState<CheckinLevel>('smart')
 
   return (
@@ -52,6 +54,8 @@ export function HotelPage() {
           await new Promise((r) => setTimeout(r, 1500))
           return true
         }}
+        onWebCheckin={() => {}}
+        onViewBoardingPass={() => navigate('/traveler/boarding-pass')}
       />
     </div>
   )

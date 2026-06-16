@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { Wifi, CheckCircle2, Loader2, AlertTriangle } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { Button } from '@/components/wildtrip/atoms'
 import { BoardingPass } from '@/components/wildtrip/molecules'
 
 export type CheckinLevel = 'smart' | 'qr' | 'basic'
@@ -23,6 +24,8 @@ export interface HotelCheckinProps {
   nfcToken?: string
   qrData?: string
   onNfcUnlock?: () => Promise<boolean>
+  onWebCheckin?: () => void
+  onViewBoardingPass?: () => void
   className?: string
 }
 
@@ -101,6 +104,72 @@ function DatesGrid({
           </p>
         </div>
       ))}
+    </div>
+  )
+}
+
+// ─── Flight Info Card (smart level only) ─────────────────────────────────────
+
+function FlightInfoCard({
+  onWebCheckin,
+  onViewBoardingPass,
+}: {
+  onWebCheckin?: () => void
+  onViewBoardingPass?: () => void
+}) {
+  return (
+    <div className="rounded-2xl bg-muted p-4 flex flex-col gap-4">
+      <div>
+        <p className="font-sans text-[10px] text-muted-foreground uppercase tracking-widest font-semibold mb-3">
+          Vuelo de ida
+        </p>
+        <div className="flex items-end gap-3">
+          <div>
+            <p className="font-display text-2xl text-foreground leading-none">07:30</p>
+            <p className="font-sans text-xs text-muted-foreground mt-1">MAD T4</p>
+          </div>
+          <div className="flex-1 flex flex-col items-center gap-1 pb-1">
+            <p className="font-sans text-[10px] text-muted-foreground">1h 15m · Directo</p>
+            <div className="w-full border-t border-dashed border-border" />
+            <p className="font-sans text-[10px] text-muted-foreground">IB 3456</p>
+          </div>
+          <div className="text-right">
+            <p className="font-display text-2xl text-foreground leading-none">08:45</p>
+            <p className="font-sans text-xs text-muted-foreground mt-1">LCG</p>
+          </div>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-2 gap-3">
+        {[
+          { label: 'Terminal',  value: 'T4 Adolfo Suárez', accent: false },
+          { label: 'Embarque',  value: '07:00',            accent: false },
+          { label: 'Puerta',    value: 'B22',              accent: false },
+          { label: 'Estado',    value: 'On time',          accent: true  },
+        ].map(({ label, value, accent }) => (
+          <div key={label}>
+            <p className="font-sans text-[10px] text-muted-foreground uppercase tracking-wide font-semibold">
+              {label}
+            </p>
+            {accent ? (
+              <span className="inline-block mt-1 px-2 py-0.5 rounded-full bg-accent-soft font-sans text-xs font-semibold text-accent-text">
+                {value}
+              </span>
+            ) : (
+              <p className="font-sans text-sm font-semibold text-foreground mt-0.5">{value}</p>
+            )}
+          </div>
+        ))}
+      </div>
+
+      <div className="flex flex-col gap-2">
+        <Button variant="primary" className="w-full" onClick={onWebCheckin}>
+          Hacer check-in online
+        </Button>
+        <Button variant="ghost" className="w-full" onClick={onViewBoardingPass}>
+          Ver boarding pass
+        </Button>
+      </div>
     </div>
   )
 }
@@ -216,6 +285,8 @@ export function HotelCheckin({
   totalCost,
   checkoutTime,
   onNfcUnlock,
+  onWebCheckin,
+  onViewBoardingPass,
   className,
 }: HotelCheckinProps) {
   const topContent = (
@@ -315,6 +386,12 @@ export function HotelCheckin({
         topContent={topContent}
         bottomContent={bottomMap[level]}
       />
+      {level === 'smart' && (
+        <FlightInfoCard
+          onWebCheckin={onWebCheckin}
+          onViewBoardingPass={onViewBoardingPass}
+        />
+      )}
       {level === 'basic' && (
         <div className="flex items-start gap-2 rounded-xl bg-warning-muted px-3 py-2.5">
           <AlertTriangle size={16} strokeWidth={1.5} className="text-warning-text shrink-0 mt-0.5" />
