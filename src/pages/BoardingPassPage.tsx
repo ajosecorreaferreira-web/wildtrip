@@ -94,7 +94,7 @@ export function BoardingPassPage() {
       <div className="flex flex-col gap-2">
         {[
           { label: 'Pasajero', value: 'Ana García'      },
-          { label: 'Clase',    value: 'Turista'         },
+          { label: 'Clase',    value: 'Economy'         },
           { label: 'Vuelo',    value: 'IB 3456 · Iberia'},
         ].map(({ label, value }) => (
           <div key={label} className="flex items-center justify-between">
@@ -122,34 +122,40 @@ export function BoardingPassPage() {
   )
 
   return (
-    <div className="min-h-screen bg-[oklch(0.08_0.04_264)] flex flex-col max-w-md mx-auto">
-      <div className="flex-1 overflow-y-auto px-5 pt-12 pb-10">
-        <button
-          onClick={() => navigate(-1)}
-          className="mb-6 font-sans text-sm text-white/50 hover:text-white/80 transition-colors"
-        >
-          ← Volver
-        </button>
+    <div className="h-screen bg-[oklch(0.08_0.04_264)] flex flex-col max-w-md mx-auto">
+      <div className="flex-1 overflow-y-auto px-5">
+        <div className="flex flex-col justify-center min-h-full py-6">
 
-        <p
-          className="font-sans text-[10px] font-semibold uppercase tracking-widest mb-4"
-          style={{ color: 'rgba(255,255,255,0.4)' }}
-        >
-          Boarding pass
-        </p>
+          {/* Nav row */}
+          <div className="flex items-center justify-between mb-4">
+            <button
+              onClick={() => navigate(-1)}
+              className="font-sans text-sm text-white/50 hover:text-white/80 transition-colors"
+            >
+              ← Volver
+            </button>
+            <p
+              className="font-sans text-[10px] font-semibold uppercase tracking-widest"
+              style={{ color: 'rgba(255,255,255,0.4)' }}
+            >
+              Boarding pass
+            </p>
+          </div>
 
-        <BoardingPass topContent={topContent} bottomContent={bottomContent} />
+          <BoardingPass topContent={topContent} bottomContent={bottomContent} />
 
-        <div className="flex flex-col gap-2 mt-5">
-          <button className="w-full rounded-xl min-h-[44px] px-5 font-sans text-sm font-medium text-white/70 hover:text-white border border-white/20 hover:border-white/40 transition-colors duration-200">
-            Añadir a Apple Wallet
-          </button>
-          <button
-            onClick={() => navigate(-1)}
-            className="w-full rounded-xl min-h-[44px] px-5 font-sans text-sm font-medium text-white/70 hover:text-white border border-white/20 hover:border-white/40 transition-colors duration-200"
-          >
-            Abrir en app Iberia
-          </button>
+          <div className="flex flex-col gap-2 mt-5">
+            <button className="w-full rounded-xl min-h-[44px] px-5 font-sans text-sm font-medium text-white/70 hover:text-white border border-white/20 hover:border-white/40 transition-colors duration-200">
+              Añadir a Apple Wallet
+            </button>
+            <button
+              onClick={() => navigate(-1)}
+              className="w-full rounded-xl min-h-[44px] px-5 font-sans text-sm font-medium text-white/70 hover:text-white border border-white/20 hover:border-white/40 transition-colors duration-200"
+            >
+              Abrir en app Iberia
+            </button>
+          </div>
+
         </div>
       </div>
     </div>
