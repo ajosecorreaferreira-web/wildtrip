@@ -217,7 +217,6 @@ function PendingExpensesState({
 
 function TravelerHome({
   state,
-  upcoming,
   active,
   pendingExpenses,
   onNewTrip,

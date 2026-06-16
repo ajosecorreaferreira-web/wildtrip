@@ -3,7 +3,6 @@
 import type { TimelineDay as LegacyTimelineDay } from '@/components/wildtrip/trip-timeline'
 import type { TimelineDay as OrgTimelineDay } from '@/components/wildtrip/organisms/TripTimeline'
 import type { TripOption } from '@/components/wildtrip/organisms/TicketUploader'
-import type { WizardManager } from '@/components/wildtrip/trip-wizard'
 import type { ClientBudget, MonthlyData, ExpenseRow } from '@/components/wildtrip/budget-dashboard'
 
 // ─── Trip ──────────────────────────────────────────────────────────────────────
@@ -105,13 +104,13 @@ export const MOCK_BUDGET = {
 
 // ─── Manager ───────────────────────────────────────────────────────────────────
 
-export const MOCK_MANAGER: WizardManager = {
+export const MOCK_MANAGER = {
   id: 'sara-garcia',
   name: 'Sara García',
   role: 'Manager Studio',
 }
 
-export const MOCK_MANAGERS: WizardManager[] = [
+export const MOCK_MANAGERS = [
   MOCK_MANAGER,
   { id: 'luis-martin', name: 'Luis Martín', role: 'Manager Tech' },
 ]

@@ -119,7 +119,6 @@ function StepConfirm({
   onMerchant,
   onAmount,
   onDate,
-  onNext,
 }: {
   merchant: string
   amount: number
@@ -127,7 +126,6 @@ function StepConfirm({
   onMerchant: (v: string) => void
   onAmount: (v: number) => void
   onDate: (v: string) => void
-  onNext: () => void
 }) {
   return (
     <div className="flex flex-col gap-4 animate-fade-in">
@@ -181,16 +179,12 @@ function StepAssociate({
   onSelectTrip,
   selectedCategory,
   onSelectCategory,
-  onNext,
-  loading,
 }: {
   trips: TripOption[]
   selectedTripId: string
   onSelectTrip: (id: string) => void
   selectedCategory: ExpenseCategory
   onSelectCategory: (c: ExpenseCategory) => void
-  onNext: () => void
-  loading?: boolean
 }) {
   return (
     <div className="flex flex-col gap-4 animate-fade-in">
@@ -355,7 +349,6 @@ export function TicketUploader({ trips, onComplete, onCancel, className }: Ticke
             <StepConfirm
               merchant={merchant} amount={amount} date={date}
               onMerchant={setMerchant} onAmount={setAmount} onDate={setDate}
-              onNext={() => setStep(4)}
             />
           )}
           {step === 4 && (
@@ -365,8 +358,6 @@ export function TicketUploader({ trips, onComplete, onCancel, className }: Ticke
               onSelectTrip={setTripId}
               selectedCategory={category}
               onSelectCategory={setCategory}
-              onNext={handleComplete}
-              loading={submitting}
             />
           )}
           {step === 5 && (
