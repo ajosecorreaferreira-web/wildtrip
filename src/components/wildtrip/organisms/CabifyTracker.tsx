@@ -20,78 +20,105 @@ export interface CabifyTrackerProps {
   paymentMethod: string
   onCall?: () => void
   onCancel?: () => void
+  onMarkArrived?: () => void
   className?: string
 }
 
 // ─── Schematic SVG Map ────────────────────────────────────────────────────────
 
-function SchematicMap({
-  state,
-  destination,
-}: {
-  state: TrackerState
-  destination: string
-}) {
-  const carPositions: Record<TrackerState, { x: number; y: number }> = {
-    incoming:   { x: 80,  y: 180 },
-    live:       { x: 160, y: 140 },
-    inprogress: { x: 240, y: 110 },
-    arrived:    { x: 310, y: 80  },
-  }
+const CAR_POSITIONS: Record<TrackerState, { x: number; y: number }> = {
+  incoming:   { x: 80,  y: 200 },
+  live:       { x: 140, y: 160 },
+  inprogress: { x: 220, y: 120 },
+  arrived:    { x: 290, y: 85  },
+}
 
-  const car = carPositions[state]
+const DEST = { x: 290, y: 85 }
+
+function SchematicMap({ state }: { state: TrackerState }) {
+  const car = CAR_POSITIONS[state]
 
   return (
     <svg
-      viewBox="0 0 390 220"
+      viewBox="0 0 390 280"
       className="w-full h-full"
-      style={{ background: '#F0EDE8' }}
-      aria-label="Mapa esquemático de ruta"
+      aria-label="Mapa de ruta"
       role="img"
       preserveAspectRatio="xMidYMid slice"
+      xmlns="http://www.w3.org/2000/svg"
     >
-      {/* Street blocks */}
-      <rect x="0"   y="60"  width="390" height="20" fill="#D8D4CF" opacity="0.8" rx="2" />
-      <rect x="0"   y="120" width="390" height="16" fill="#D8D4CF" opacity="0.6" rx="2" />
-      <rect x="0"   y="170" width="390" height="14" fill="#D8D4CF" opacity="0.5" rx="2" />
-      <rect x="60"  y="0"   width="20"  height="220" fill="#D8D4CF" opacity="0.5" rx="2" />
-      <rect x="180" y="0"   width="16"  height="220" fill="#D8D4CF" opacity="0.4" rx="2" />
-      <rect x="310" y="0"   width="16"  height="220" fill="#D8D4CF" opacity="0.4" rx="2" />
+      <defs>
+        <radialGradient id="mapGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor="white" stopOpacity="0.05" />
+          <stop offset="100%" stopColor="white" stopOpacity="0" />
+        </radialGradient>
+      </defs>
 
-      {/* Route polyline */}
+      {/* Background */}
+      <rect width="390" height="280" fill="#F2EFE9" />
+
+      {/* Building blocks */}
+      <rect x="20"  y="20"  width="80" height="50" rx="4" fill="#E8E3D9" />
+      <rect x="120" y="10"  width="60" height="40" rx="4" fill="#E8E3D9" />
+      <rect x="200" y="25"  width="90" height="55" rx="4" fill="#E8E3D9" />
+      <rect x="310" y="15"  width="65" height="45" rx="4" fill="#E8E3D9" />
+      <rect x="15"  y="100" width="70" height="60" rx="4" fill="#E8E3D9" />
+      <rect x="110" y="90"  width="85" height="65" rx="4" fill="#E8E3D9" />
+      <rect x="220" y="100" width="75" height="55" rx="4" fill="#E8E3D9" />
+      <rect x="315" y="90"  width="60" height="70" rx="4" fill="#E8E3D9" />
+      <rect x="20"  y="195" width="85" height="65" rx="4" fill="#E8E3D9" />
+      <rect x="130" y="200" width="70" height="60" rx="4" fill="#E8E3D9" />
+      <rect x="225" y="190" width="80" height="70" rx="4" fill="#E8E3D9" />
+      <rect x="325" y="200" width="50" height="55" rx="4" fill="#E8E3D9" />
+
+      {/* Main streets */}
+      <line x1="0" y1="80"  x2="390" y2="80"  stroke="white" strokeWidth="8" />
+      <line x1="0" y1="175" x2="390" y2="175" stroke="white" strokeWidth="8" />
+      <line x1="100" y1="0" x2="100" y2="280" stroke="white" strokeWidth="8" />
+      <line x1="205" y1="0" x2="205" y2="280" stroke="white" strokeWidth="8" />
+      <line x1="310" y1="0" x2="310" y2="280" stroke="white" strokeWidth="8" />
+
+      {/* Secondary streets */}
+      <line x1="0"   y1="130" x2="390" y2="130" stroke="white" strokeWidth="4" />
+      <line x1="50"  y1="0"   x2="50"  y2="280" stroke="white" strokeWidth="4" />
+      <line x1="155" y1="0"   x2="155" y2="280" stroke="white" strokeWidth="4" />
+      <line x1="260" y1="0"   x2="260" y2="280" stroke="white" strokeWidth="4" />
+
+      {/* Subtle glow */}
+      <rect width="390" height="280" fill="url(#mapGlow)" />
+
+      {/* Route */}
       <polyline
-        points={`${car.x},${car.y} ${car.x + 60},${car.y - 30} 310,80`}
+        points={`${car.x},${car.y} ${DEST.x},${DEST.y}`}
         fill="none"
-        stroke="var(--accent)"
-        strokeWidth="2.5"
-        strokeDasharray="6 4"
+        stroke="oklch(0.55 0.18 162)"
+        strokeWidth="3"
+        strokeDasharray="8 4"
         strokeLinecap="round"
       />
 
       {/* Destination pin */}
-      <circle cx="310" cy="80" r="8" fill="var(--primary)" />
-      <circle cx="310" cy="80" r="4" fill="var(--primary-foreground)" />
+      <circle cx={DEST.x} cy={DEST.y} r="10" fill="oklch(0.20 0.10 264)" />
+      <circle cx={DEST.x} cy={DEST.y} r="4"  fill="white" />
+      <rect x="255" y="55" width="70" height="20" rx="4" fill="oklch(0.20 0.10 264)" />
+      <text
+        x="290" y="69"
+        textAnchor="middle"
+        fill="white"
+        fontSize="9"
+        fontFamily="Plus Jakarta Sans, sans-serif"
+        fontWeight="600"
+      >
+        Inditex Ar.
+      </text>
 
-      {/* Car dot with pulse */}
-      <circle cx={car.x} cy={car.y} r="14" fill="var(--accent)" opacity="0.2">
-        <animate attributeName="r" values="14;20;14" dur="2s" repeatCount="indefinite" />
+      {/* Conductor pulse ring */}
+      <circle cx={car.x} cy={car.y} r="10" fill="oklch(0.55 0.18 162)" opacity="0.2">
+        <animate attributeName="r"       values="10;18;10" dur="2s" repeatCount="indefinite" />
         <animate attributeName="opacity" values="0.2;0;0.2" dur="2s" repeatCount="indefinite" />
       </circle>
-      <circle cx={car.x} cy={car.y} r="8" fill="var(--accent)" />
-      <circle cx={car.x} cy={car.y} r="4" fill="var(--accent-foreground)" />
-
-      {/* Destination label */}
-      <text
-        x="310"
-        y="60"
-        textAnchor="middle"
-        fontSize="9"
-        fill="var(--primary)"
-        fontWeight="600"
-        fontFamily="system-ui"
-      >
-        {destination.slice(0, 10)}
-      </text>
+      {/* Conductor dot */}
+      <circle cx={car.x} cy={car.y} r="6" fill="oklch(0.55 0.18 162)" />
     </svg>
   )
 }
@@ -150,6 +177,7 @@ function IncomingContent({
   driverPlate,
   driverRating,
   onCall,
+  onCancel,
 }: {
   eta: number
   driverName: string
@@ -157,6 +185,7 @@ function IncomingContent({
   driverPlate: string
   driverRating: number
   onCall?: () => void
+  onCancel?: () => void
 }) {
   return (
     <div className="flex flex-col gap-4">
@@ -171,6 +200,9 @@ function IncomingContent({
         name={driverName} car={driverCar} plate={driverPlate}
         rating={driverRating} onCall={onCall}
       />
+      <Button variant="ghost" className="w-full mt-2" onClick={onCancel}>
+        Cancelar
+      </Button>
     </div>
   )
 }
@@ -213,12 +245,14 @@ function InProgressContent({
   eta,
   estimatedPrice,
   paymentMethod,
+  onMarkArrived,
 }: {
   origin: string
   destination: string
   eta: number
   estimatedPrice: number
   paymentMethod: string
+  onMarkArrived?: () => void
 }) {
   return (
     <div className="flex flex-col gap-4">
@@ -245,6 +279,9 @@ function InProgressContent({
           Se cargará a <span className="font-semibold">{paymentMethod}</span> automáticamente.
         </p>
       </div>
+      <Button variant="accent" className="w-full" onClick={onMarkArrived}>
+        Ya llegué
+      </Button>
     </div>
   )
 }
@@ -253,10 +290,12 @@ function ArrivedView({
   destination,
   estimatedPrice,
   paymentMethod,
+  onBack,
 }: {
   destination: string
   estimatedPrice: number
   paymentMethod: string
+  onBack?: () => void
 }) {
   const [confirming, setConfirming] = React.useState(false)
   const [confirmed, setConfirmed] = React.useState(false)
@@ -337,6 +376,9 @@ function ArrivedView({
           </Button>
         </div>
       </div>
+      <Button variant="ghost" className="w-full mt-3" onClick={onBack}>
+        Volver al itinerario
+      </Button>
     </div>
   )
 }
@@ -355,22 +397,24 @@ export function CabifyTracker({
   estimatedPrice,
   paymentMethod,
   onCall,
+  onCancel,
+  onMarkArrived,
   className,
 }: CabifyTrackerProps) {
   return (
-    <div className={cn('flex flex-col flex-1', className)}>
-      {/* Map */}
-      <div className="min-h-[55vh] overflow-hidden" style={{ background: '#F0EDE8' }}>
-        <SchematicMap state={state} destination={destination} />
+    <div className={cn('flex flex-col h-full', className)}>
+      {/* Map fills remaining space */}
+      <div className="flex-1 relative overflow-hidden">
+        <SchematicMap state={state} />
       </div>
 
-      {/* Bottom sheet */}
-      <div className="bg-background rounded-t-3xl -mt-6 px-5 py-5 flex-1">
+      {/* Bottom sheet — sits naturally at the bottom */}
+      <div className="bg-background rounded-t-3xl px-5 pt-5 pb-safe shadow-[0_-4px_20px_rgba(0,0,0,0.08)]">
         {state === 'incoming' && (
           <IncomingContent
             eta={eta} driverName={driverName} driverCar={driverCar}
             driverPlate={driverPlate} driverRating={driverRating}
-            onCall={onCall}
+            onCall={onCall} onCancel={onCancel}
           />
         )}
         {state === 'live' && (
@@ -384,6 +428,7 @@ export function CabifyTracker({
           <InProgressContent
             origin={origin} destination={destination}
             eta={eta} estimatedPrice={estimatedPrice} paymentMethod={paymentMethod}
+            onMarkArrived={onMarkArrived}
           />
         )}
         {state === 'arrived' && (
@@ -391,6 +436,7 @@ export function CabifyTracker({
             destination={destination}
             estimatedPrice={estimatedPrice}
             paymentMethod={paymentMethod}
+            onBack={onCancel}
           />
         )}
       </div>

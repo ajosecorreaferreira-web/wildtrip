@@ -1,14 +1,15 @@
 import {
   Plus,
-  Receipt,
   AlertCircle,
   Plane,
   Check,
   CheckCircle2,
+  Receipt,
 } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import { cn } from '@/lib/utils'
 import { Button, StatusBadge } from '@/components/wildtrip/atoms'
+import { BudgetMiniCard } from '@/components/wildtrip/molecules'
 import { TripTimeline } from '@/components/wildtrip/trip-timeline'
 import type { TimelineDay } from '@/components/wildtrip/trip-timeline'
 
@@ -132,34 +133,35 @@ function InProgressState({
   trip: ActiveTrip
   onUploadTicket?: () => void
 }) {
+  const navigate = useNavigate()
   return (
-    <div className="space-y-5 animate-page-enter">
-      <div className="flex items-center justify-between gap-3">
-        <div>
-          <h2 className="font-display text-3xl font-normal tracking-tight text-foreground">
-            {trip.destination}
-          </h2>
-          <span className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-widest text-[var(--accent-text)] mt-1">
-            <span className="size-1.5 rounded-full bg-[var(--accent)] animate-pulse" />
-            En curso
-          </span>
+    <div>
+      <div className="bg-primary px-4 pt-12 pb-5">
+        <p className="font-sans text-xs text-primary-foreground/60">Buenos días</p>
+        <h1 className="font-display text-3xl text-primary-foreground mt-0.5">Ana García</h1>
+        <div className="mt-4">
+          <BudgetMiniCard spent={312} total={560} daysLeft={1} variant="dark" />
         </div>
-        {onUploadTicket && (
-          <button
-            onClick={onUploadTicket}
-            className={cn(
-              'inline-flex items-center gap-2',
-              'rounded-xl min-h-[44px] px-4 text-sm font-medium',
-              'bg-[var(--accent-soft)] text-[var(--accent-text)] hover:opacity-90',
-              'transition-opacity duration-150'
-            )}
+        <div className="flex gap-3 mt-4">
+          <Button
+            variant="accent"
+            className="flex-1 text-sm h-10"
+            onClick={() => navigate('/traveler/cabify')}
           >
-            <Receipt size={20} strokeWidth={1.5} />
-            Ticket
-          </button>
-        )}
+            🚕 Pedir Cabify
+          </Button>
+          <Button
+            variant="ghost"
+            className="flex-1 text-sm h-10 border-white/30 text-white"
+            onClick={() => onUploadTicket?.()}
+          >
+            🧾 Añadir ticket
+          </Button>
+        </div>
       </div>
-      <TripTimeline days={trip.days} />
+      <div className="px-4 pt-4 pb-24">
+        <TripTimeline days={trip.days} />
+      </div>
     </div>
   )
 }

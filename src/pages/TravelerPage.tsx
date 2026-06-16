@@ -1,4 +1,5 @@
 import { useNavigate, useSearchParams } from 'react-router-dom'
+import { cn } from '@/lib/utils'
 import { TravelerHome } from '@/components/wildtrip/traveler-home'
 import { BottomNav } from '@/components/wildtrip/BottomNav'
 import { MOCK_TIMELINE_DAYS_LEGACY } from '@/data/mock'
@@ -21,7 +22,10 @@ export function TravelerPage() {
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
-      <div className="flex-1 max-w-md mx-auto w-full px-4 pt-8 pb-24">
+      <div className={cn(
+        'flex-1 max-w-md mx-auto w-full',
+        homeState !== 'in_progress' && 'px-4 pt-8 pb-24',
+      )}>
         <TravelerHome
           state={homeState}
           upcoming={{
