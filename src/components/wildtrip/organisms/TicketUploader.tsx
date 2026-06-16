@@ -29,7 +29,6 @@ export interface TicketUploaderProps {
   trips: TripOption[]
   onComplete: (expense: ExpenseSubmission) => Promise<void>
   onCancel: () => void
-  className?: string
 }
 
 const CATEGORY_OPTIONS: ExpenseCategory[] = ['meal', 'transport', 'hotel', 'coffee', 'other']
@@ -288,7 +287,7 @@ function StepSuccess({
 
 // ─── Main Component ───────────────────────────────────────────────────────────
 
-export function TicketUploader({ trips, onComplete, onCancel, className }: TicketUploaderProps) {
+export function TicketUploader({ trips, onComplete, onCancel }: TicketUploaderProps) {
   const [step, setStep] = React.useState<TicketStep>(1)
   const [preview, setPreview] = React.useState<string | null>(null)
   const [merchant, setMerchant] = React.useState('')
