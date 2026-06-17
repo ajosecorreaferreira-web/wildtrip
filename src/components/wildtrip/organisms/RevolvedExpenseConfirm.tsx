@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { X, ChevronDown } from 'lucide-react'
+import { X, ChevronDown, Check } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/wildtrip/atoms'
 import { EXPENSE_EMOJIS } from '@/components/wildtrip/molecules'
@@ -125,12 +125,17 @@ export function RevolvedExpenseConfirm({
                 key={cat}
                 onClick={() => setCategory(cat)}
                 className={cn(
-                  'flex flex-col items-center gap-1.5 p-3 rounded-xl cursor-pointer transition-all duration-[180ms]',
+                  'relative flex flex-col items-center gap-1.5 p-3 rounded-xl cursor-pointer transition-all duration-[180ms]',
                   category === cat
-                    ? 'border-2 border-primary bg-primary/5'
+                    ? 'border-2 border-primary bg-primary/10'
                     : 'border border-border bg-background hover:bg-muted',
                 )}
               >
+                {category === cat && (
+                  <div className="absolute top-1 right-1 w-4 h-4 rounded-full bg-primary flex items-center justify-center">
+                    <Check size={10} className="text-primary-foreground" />
+                  </div>
+                )}
                 <span className="text-2xl" aria-hidden>{EXPENSE_EMOJIS[cat]}</span>
                 <span className="font-sans text-xs font-medium text-muted-foreground leading-none">
                   {CATEGORY_LABELS[cat]}
