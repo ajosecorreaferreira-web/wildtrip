@@ -1,4 +1,3 @@
-import { CheckCircle2 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 export interface FlightRowProps {
@@ -48,15 +47,6 @@ export function FlightRow({
           : 'border border-border hover:border-primary/30 hover:shadow-sm',
       )}
     >
-      {selected && (
-        <CheckCircle2
-          size={16}
-          strokeWidth={1.5}
-          className="absolute top-3 right-3 text-accent"
-          aria-hidden
-        />
-      )}
-
       {/* Times + route */}
       <div className="flex items-center gap-3">
         {/* Departure */}

@@ -1,4 +1,3 @@
-import { CheckCircle2 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 export interface HotelCardProps {
@@ -50,15 +49,6 @@ export function HotelCard({
           : 'border border-border hover:border-primary/30 hover:shadow-sm',
       )}
     >
-      {selected && (
-        <CheckCircle2
-          size={16}
-          strokeWidth={1.5}
-          className="absolute top-3 right-3 text-accent"
-          aria-hidden
-        />
-      )}
-
       <div className="flex items-start justify-between gap-3">
         {/* Hotel info */}
         <div className="flex-1 min-w-0">
