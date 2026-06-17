@@ -55,6 +55,28 @@ export function CountdownPage() {
               </div>
             </div>
 
+            {/* Cabify vuelta */}
+            <div
+              className="rounded-xl px-4 py-3.5 border flex items-center justify-between gap-3"
+              style={{
+                background: 'rgba(255,255,255,0.05)',
+                borderColor: 'rgba(255,255,255,0.10)',
+              }}
+            >
+              <div className="flex items-center gap-3 min-w-0">
+                <span className="text-xl shrink-0" aria-hidden>🚕</span>
+                <div className="min-w-0">
+                  <p className="font-sans text-sm font-semibold text-white leading-snug">
+                    Tu Cabify · NH Finisterre → LCG
+                  </p>
+                  <p className="font-sans text-xs mt-0.5 truncate" style={{ color: 'rgba(255,255,255,0.5)' }}>
+                    Roberto P. · Toyota Corolla · 8821 JKL
+                  </p>
+                </div>
+              </div>
+              <p className="font-sans text-sm font-semibold text-white shrink-0">17:30</p>
+            </div>
+
             {/* Vuelo vuelta */}
             <div
               className="rounded-xl px-4 py-3.5 border flex items-center justify-between gap-3"
