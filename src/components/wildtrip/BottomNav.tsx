@@ -13,7 +13,7 @@ interface NavTab {
 
 const TRAVELER_TABS: NavTab[] = [
   { icon: Home,    label: 'Inicio',  path: '/traveler' },
-  { icon: Receipt, label: 'Gastos',  path: '/traveler/budget' },
+  { icon: Receipt, label: 'Gastos',  path: '/traveler/gastos' },
   { icon: Plane,   label: 'Viajes',  path: '/traveler/timeline' },
   { icon: User,    label: 'Perfil',  path: '/profile', disabled: true },
 ]
