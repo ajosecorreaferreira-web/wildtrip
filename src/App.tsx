@@ -17,6 +17,7 @@ import { FinancePage }       from '@/pages/FinancePage'
 import { CheckoutPage }      from '@/pages/CheckoutPage'
 import { ExpenseReportPage } from '@/pages/ExpenseReportPage'
 import { GastosPage }        from '@/pages/GastosPage'
+import { QRInditexPage }     from '@/pages/QRInditexPage'
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
             <Route path="/traveler/boarding-pass" element={<BoardingPassPage />} />
             <Route path="/traveler/expense-report" element={<ExpenseReportPage />} />
             <Route path="/traveler/gastos"         element={<GastosPage />} />
+            <Route path="/traveler/qr-inditex"    element={<QRInditexPage />} />
             <Route path="/manager"               element={<ManagerPage />} />
             <Route path="/manager/approve/:id"   element={<QuickApprovalPage />} />
             <Route path="/finance"               element={<FinancePage />} />

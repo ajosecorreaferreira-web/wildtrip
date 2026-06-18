@@ -24,12 +24,13 @@ export function CabifyPage() {
 
   return (
     <div className="flex flex-col h-screen overflow-hidden bg-[#F2EFE9]">
-      <div className="flex-1 relative overflow-hidden">
+      <div className="flex-1 relative min-h-0">
       <CabifyTracker
         className="h-full"
         state={state}
         origin="LCG · Aeropuerto A Coruña"
         destination="Inditex Arteixo"
+        mapDestination="inditex"
         driverName={MOCK_CABIFY.driverName}
         driverCar={MOCK_CABIFY.driverCar}
         driverPlate={MOCK_CABIFY.driverPlate}

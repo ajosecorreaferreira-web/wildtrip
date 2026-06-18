@@ -4,6 +4,7 @@ import { cn } from '@/lib/utils'
 import { Button } from '@/components/wildtrip/atoms'
 
 export type TrackerState = 'incoming' | 'live' | 'inprogress' | 'arrived'
+export type MapDestination = 'airport_mad' | 'hotel' | 'inditex' | 'airport_lcg' | 'home'
 
 export interface CabifyTrackerProps {
   state: TrackerState
@@ -16,6 +17,7 @@ export interface CabifyTrackerProps {
   eta: number
   estimatedPrice: number
   paymentMethod: string
+  mapDestination?: MapDestination
   onCall?: () => void
   onCancel?: () => void
   onMarkArrived?: () => void
@@ -24,17 +26,39 @@ export interface CabifyTrackerProps {
 
 // ─── Schematic SVG Map ────────────────────────────────────────────────────────
 
-const CAR_POSITIONS: Record<TrackerState, { x: number; y: number }> = {
-  incoming:   { x: 80,  y: 200 },
-  live:       { x: 140, y: 160 },
-  inprogress: { x: 220, y: 120 },
-  arrived:    { x: 290, y: 85  },
+const DEST_CONFIG: Record<MapDestination, {
+  label: string
+  destX: number
+  destY: number
+  driverX: number
+  driverY: number
+}> = {
+  airport_mad:  { label: 'MAD T4',       destX: 320, destY: 60,  driverX: 80,  driverY: 340 },
+  hotel:        { label: 'NH Finisterre', destX: 310, destY: 80,  driverX: 90,  driverY: 320 },
+  inditex:      { label: 'Inditex Ar.',   destX: 320, destY: 70,  driverX: 80,  driverY: 300 },
+  airport_lcg:  { label: 'LCG',           destX: 300, destY: 90,  driverX: 100, driverY: 310 },
+  home:         { label: 'Casa · Madrid', destX: 290, destY: 100, driverX: 110, driverY: 320 },
 }
 
-const DEST = { x: 290, y: 85 }
+function getCarPos(
+  state: TrackerState,
+  driverX: number, driverY: number,
+  destX: number, destY: number,
+) {
+  const ratio: Record<TrackerState, number> = {
+    incoming: 0, live: 0.33, inprogress: 0.66, arrived: 1,
+  }
+  const r = ratio[state]
+  return {
+    x: Math.round(driverX + (destX - driverX) * r),
+    y: Math.round(driverY + (destY - driverY) * r),
+  }
+}
 
-function SchematicMap({ state }: { state: TrackerState }) {
-  const car = CAR_POSITIONS[state]
+function SchematicMap({ state, mapDestination = 'inditex' }: { state: TrackerState; mapDestination?: MapDestination }) {
+  const cfg = DEST_CONFIG[mapDestination]
+  const car = getCarPos(state, cfg.driverX, cfg.driverY, cfg.destX, cfg.destY)
+  const labelWidth = Math.max(50, cfg.label.length * 6 + 12)
 
   return (
     <svg
@@ -44,7 +68,7 @@ function SchematicMap({ state }: { state: TrackerState }) {
       aria-label="Mapa de ruta"
       role="img"
       preserveAspectRatio="xMidYMid slice"
-      style={{ display: 'block' }}
+      style={{ display: 'block', position: 'absolute', inset: 0 }}
       xmlns="http://www.w3.org/2000/svg"
     >
       <defs>
@@ -83,7 +107,7 @@ function SchematicMap({ state }: { state: TrackerState }) {
       <rect width="390" height="420" fill="url(#mapGlow)" />
 
       <polyline
-        points={`${car.x},${car.y} ${DEST.x},${DEST.y}`}
+        points={`${car.x},${car.y} ${cfg.destX},${cfg.destY}`}
         fill="none"
         stroke="oklch(0.55 0.18 162)"
         strokeWidth="3"
@@ -91,18 +115,26 @@ function SchematicMap({ state }: { state: TrackerState }) {
         strokeLinecap="round"
       />
 
-      <circle cx={DEST.x} cy={DEST.y} r="10" fill="oklch(0.20 0.10 264)" />
-      <circle cx={DEST.x} cy={DEST.y} r="4"  fill="white" />
-      <rect x="255" y="55" width="70" height="20" rx="4" fill="oklch(0.20 0.10 264)" />
+      <circle cx={cfg.destX} cy={cfg.destY} r="10" fill="oklch(0.20 0.10 264)" />
+      <circle cx={cfg.destX} cy={cfg.destY} r="4"  fill="white" />
+      <rect
+        x={cfg.destX - labelWidth / 2}
+        y={cfg.destY - 30}
+        width={labelWidth}
+        height={20}
+        rx="4"
+        fill="oklch(0.20 0.10 264)"
+      />
       <text
-        x="290" y="69"
+        x={cfg.destX}
+        y={cfg.destY - 16}
         textAnchor="middle"
         fill="white"
         fontSize="9"
         fontFamily="Plus Jakarta Sans, sans-serif"
         fontWeight="600"
       >
-        Inditex Ar.
+        {cfg.label}
       </text>
 
       <circle cx={car.x} cy={car.y} r="10" fill="oklch(0.55 0.18 162)" opacity="0.2">
@@ -439,6 +471,7 @@ export function CabifyTracker({
   eta,
   estimatedPrice,
   paymentMethod,
+  mapDestination,
   onCall,
   onCancel,
   onMarkArrived,
@@ -460,8 +493,8 @@ export function CabifyTracker({
   return (
     <div className={cn('flex flex-col h-full', className)}>
       {/* Map */}
-      <div className="min-h-[60vh] flex-1 relative overflow-hidden">
-        <SchematicMap state={state} />
+      <div className="flex-1 relative overflow-hidden" style={{ minHeight: 0 }}>
+        <SchematicMap state={state} mapDestination={mapDestination} />
       </div>
 
       {/* Bottom sheet */}
