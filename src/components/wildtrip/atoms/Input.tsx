@@ -31,7 +31,7 @@ export function Input({ label, error, iconLeft, id, className, ...props }: Input
           id={inputId}
           className={cn(
             'w-full min-h-11 rounded-xl border bg-background text-foreground font-sans text-sm',
-            'transition-all duration-[180ms] ease-[var(--ease-default)]',
+            'transition-all duration-[var(--duration-base)] ease-[var(--ease-default)]',
             'placeholder:text-muted-foreground',
             'focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/20',
             iconLeft ? 'pl-9 pr-3 py-2.5' : 'px-3 py-2.5',

@@ -62,7 +62,7 @@ function StepPhoto({ onFile }: { onFile: (file: File) => void }) {
         className={cn(
           'w-full flex flex-col items-center justify-center gap-3 min-h-[160px]',
           'rounded-2xl border-2 border-dashed border-accent bg-accent-soft',
-          'hover:bg-accent/10 transition-colors duration-[180ms]',
+          'hover:bg-accent/10 transition-colors duration-[var(--duration-base)]',
         )}
       >
         <Camera size={32} strokeWidth={1.5} className="text-accent-text" />
@@ -197,7 +197,7 @@ function StepAssociate({
               key={trip.id}
               onClick={() => onSelectTrip(trip.id)}
               className={cn(
-                'w-full flex items-center gap-3 rounded-xl border px-3 py-2.5 text-left transition-all duration-[180ms]',
+                'w-full flex items-center gap-3 rounded-xl border px-3 py-2.5 text-left transition-all duration-[var(--duration-base)]',
                 selectedTripId === trip.id
                   ? 'border-accent bg-accent-soft'
                   : 'border-border bg-card hover:bg-muted',
@@ -205,7 +205,7 @@ function StepAssociate({
             >
               <div
                 className={cn(
-                  'w-4 h-4 rounded-full border-2 shrink-0 transition-colors duration-[180ms]',
+                  'w-4 h-4 rounded-full border-2 shrink-0 transition-colors duration-[var(--duration-base)]',
                   selectedTripId === trip.id ? 'border-accent bg-accent' : 'border-border',
                 )}
               />
@@ -235,7 +235,7 @@ function StepAssociate({
               key={cat}
               onClick={() => onSelectCategory(cat)}
               className={cn(
-                'flex flex-col items-center gap-1 py-2 rounded-xl border text-center transition-all duration-[180ms]',
+                'flex flex-col items-center gap-1 py-2 rounded-xl border text-center transition-all duration-[var(--duration-base)]',
                 selectedCategory === cat
                   ? 'border-primary bg-secondary'
                   : 'border-border bg-card hover:bg-muted',

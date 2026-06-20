@@ -47,7 +47,7 @@ export function BudgetBar({
       >
         <div
           className={cn(
-            'h-full rounded-full transition-all duration-[450ms] ease-[var(--ease-elegant)]',
+            'h-full rounded-full transition-all duration-[var(--duration-slower)] ease-[var(--ease-elegant)]',
             barColor
           )}
           style={{ width: `${pct}%` }}
@@ -90,7 +90,7 @@ export function BudgetBar({
             strokeWidth="8"
             strokeLinecap="round"
             strokeDasharray={`${strokeDash} ${circumference}`}
-            className="transition-all duration-[450ms] ease-[var(--ease-elegant)]"
+            className="transition-all duration-[var(--duration-slower)] ease-[var(--ease-elegant)]"
           />
         </svg>
         <div className="absolute flex flex-col items-center">
@@ -142,7 +142,7 @@ export function BudgetBar({
       >
         <div
           className={cn(
-            'h-full rounded-full transition-all duration-[450ms] ease-[var(--ease-elegant)]',
+            'h-full rounded-full transition-all duration-[var(--duration-slower)] ease-[var(--ease-elegant)]',
             barColor
           )}
           style={{ width: `${pct}%` }}

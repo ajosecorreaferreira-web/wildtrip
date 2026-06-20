@@ -78,6 +78,12 @@
   --color-chart-4:                oklch(0.65 0.18 320);
   --color-chart-5:                oklch(0.577 0.245 27);
 
+  /* --- Pantallas oscuras y mapa --- */
+  --color-navy-deep:              oklch(0.08 0.04 264);
+  --color-navy-mid:               oklch(0.14 0.08 264);
+  --color-map-bg:                 oklch(0.96 0.01 75);
+  --color-map-block:              oklch(0.92 0.01 75);
+
   /* --- Tipografía --- */
   --font-sans:    'Plus Jakarta Sans Variable', system-ui, -apple-system, sans-serif;
   --font-display: 'DM Serif Display', Georgia, serif;
@@ -91,11 +97,11 @@
   --radius-xl:   1.5rem;
   --radius-full: 999px;
 
-  --border-radius-sm:   0.5rem;
-  --border-radius:      0.75rem;
-  --border-radius-md:   0.75rem;
-  --border-radius-lg:   1rem;
-  --border-radius-xl:   1.5rem;
+  --border-radius-sm:   var(--radius-sm);
+  --border-radius:      var(--radius);
+  --border-radius-md:   var(--radius-md);
+  --border-radius-lg:   var(--radius-lg);
+  --border-radius-xl:   var(--radius-xl);
   --border-radius-2xl:  2rem;
   --border-radius-full: 9999px;
 
@@ -307,7 +313,6 @@
 
 html {
   font-family: var(--font-sans);
-  font-size: 16px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

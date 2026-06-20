@@ -48,7 +48,7 @@ function EventDot({ status }: { status: EventStatus }) {
     <div className="relative flex items-center justify-center shrink-0">
       <div
         className={cn(
-          'w-3 h-3 rounded-full border-2 transition-colors duration-300',
+          'w-3 h-3 rounded-full border-2 transition-colors duration-[var(--duration-slow)]',
           status === 'completed' && 'bg-primary border-primary',
           status === 'active' && 'bg-accent border-accent',
           status === 'upcoming' && 'bg-background border-border',
@@ -99,7 +99,7 @@ export function TripTimeline({
             key={d.date}
             onClick={() => setActiveDay(idx)}
             className={cn(
-              'shrink-0 px-3 py-1.5 rounded-full font-sans text-xs font-semibold transition-all duration-[180ms]',
+              'shrink-0 px-3 py-1.5 rounded-full font-sans text-xs font-semibold transition-all duration-[var(--duration-base)]',
               activeDay === idx
                 ? 'bg-primary text-primary-foreground'
                 : 'bg-muted text-muted-foreground hover:bg-secondary',
@@ -195,7 +195,7 @@ export function TripTimeline({
       <div className="mt-2 pt-3 border-t border-border">
         <button
           onClick={onAddExpense}
-          className="w-full flex items-center gap-2 px-2 py-2.5 rounded-xl hover:bg-muted transition-colors duration-[180ms]"
+          className="w-full flex items-center gap-2 px-2 py-2.5 rounded-xl hover:bg-muted transition-colors duration-[var(--duration-base)]"
         >
           <div className="w-7 h-7 rounded-lg bg-accent-soft flex items-center justify-center shrink-0">
             <Plus size={14} strokeWidth={1.5} className="text-accent-text" />

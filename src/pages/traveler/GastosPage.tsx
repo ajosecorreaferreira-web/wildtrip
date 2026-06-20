@@ -87,7 +87,7 @@ export function GastosPage() {
           </div>
           <div className="h-1.5 w-full rounded-full bg-white/20 overflow-hidden mt-2">
             <div
-              className="h-full rounded-full bg-white/80 transition-all duration-[450ms]"
+              className="h-full rounded-full bg-white/80 transition-all duration-[var(--duration-slower)]"
               style={{ width: `${PCT}%` }}
             />
           </div>

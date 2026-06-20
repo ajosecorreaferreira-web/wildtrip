@@ -23,7 +23,7 @@ export function CabifyPage() {
   }, [state])
 
   return (
-    <div className="flex flex-col h-screen overflow-hidden bg-[#F2EFE9]">
+    <div className="flex flex-col h-screen overflow-hidden bg-map-bg">
       <div className="flex-1 relative min-h-0">
       <CabifyTracker
         className="h-full"

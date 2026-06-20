@@ -150,7 +150,7 @@ export function QuickApproval({
           aria-valuemax={100}
         >
           <div
-            className={cn('h-full rounded-full transition-all duration-[450ms]', budgetColor)}
+            className={cn('h-full rounded-full transition-all duration-[var(--duration-slower)]', budgetColor)}
             style={{ width: `${Math.min(clientBudgetPct, 100)}%` }}
           />
         </div>

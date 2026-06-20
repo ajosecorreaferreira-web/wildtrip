@@ -57,7 +57,7 @@ function ExpenseRow({
           <div className="flex flex-col items-end shrink-0">
             <span className="font-sans text-sm font-semibold text-foreground">{amount}</span>
             {hasTicket && (
-              <Check size={14} strokeWidth={2} className="text-accent mt-0.5" />
+              <Check size={14} strokeWidth={1.5} className="text-accent mt-0.5" />
             )}
           </div>
         </div>

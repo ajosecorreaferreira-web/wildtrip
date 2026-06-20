@@ -47,7 +47,7 @@ export function Button({
       disabled={isDisabled}
       className={cn(
         'inline-flex items-center justify-center rounded-xl font-sans font-semibold',
-        'transition-all duration-[180ms] ease-[var(--ease-default)]',
+        'transition-all duration-[var(--duration-base)] ease-[var(--ease-default)]',
         'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)] focus-visible:ring-offset-2',
         'disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none',
         VARIANT_CLASSES[variant],

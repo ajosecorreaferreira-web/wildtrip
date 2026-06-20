@@ -78,20 +78,20 @@ function SchematicMap({ state, mapDestination = 'inditex' }: { state: TrackerSta
         </radialGradient>
       </defs>
 
-      <rect width="390" height="420" fill="#F2EFE9" />
+      <rect width="390" height="420" style={{ fill: 'var(--color-map-bg)' }} />
 
-      <rect x="20"  y="20"  width="80" height="50" rx="4" fill="#E8E3D9" />
-      <rect x="120" y="10"  width="60" height="40" rx="4" fill="#E8E3D9" />
-      <rect x="200" y="25"  width="90" height="55" rx="4" fill="#E8E3D9" />
-      <rect x="310" y="15"  width="65" height="45" rx="4" fill="#E8E3D9" />
-      <rect x="15"  y="100" width="70" height="60" rx="4" fill="#E8E3D9" />
-      <rect x="110" y="90"  width="85" height="65" rx="4" fill="#E8E3D9" />
-      <rect x="220" y="100" width="75" height="55" rx="4" fill="#E8E3D9" />
-      <rect x="315" y="90"  width="60" height="70" rx="4" fill="#E8E3D9" />
-      <rect x="20"  y="195" width="85" height="65" rx="4" fill="#E8E3D9" />
-      <rect x="130" y="200" width="70" height="60" rx="4" fill="#E8E3D9" />
-      <rect x="225" y="190" width="80" height="70" rx="4" fill="#E8E3D9" />
-      <rect x="325" y="200" width="50" height="55" rx="4" fill="#E8E3D9" />
+      <rect x="20"  y="20"  width="80" height="50" rx="4" style={{ fill: 'var(--color-map-block)' }} />
+      <rect x="120" y="10"  width="60" height="40" rx="4" style={{ fill: 'var(--color-map-block)' }} />
+      <rect x="200" y="25"  width="90" height="55" rx="4" style={{ fill: 'var(--color-map-block)' }} />
+      <rect x="310" y="15"  width="65" height="45" rx="4" style={{ fill: 'var(--color-map-block)' }} />
+      <rect x="15"  y="100" width="70" height="60" rx="4" style={{ fill: 'var(--color-map-block)' }} />
+      <rect x="110" y="90"  width="85" height="65" rx="4" style={{ fill: 'var(--color-map-block)' }} />
+      <rect x="220" y="100" width="75" height="55" rx="4" style={{ fill: 'var(--color-map-block)' }} />
+      <rect x="315" y="90"  width="60" height="70" rx="4" style={{ fill: 'var(--color-map-block)' }} />
+      <rect x="20"  y="195" width="85" height="65" rx="4" style={{ fill: 'var(--color-map-block)' }} />
+      <rect x="130" y="200" width="70" height="60" rx="4" style={{ fill: 'var(--color-map-block)' }} />
+      <rect x="225" y="190" width="80" height="70" rx="4" style={{ fill: 'var(--color-map-block)' }} />
+      <rect x="325" y="200" width="50" height="55" rx="4" style={{ fill: 'var(--color-map-block)' }} />
 
       <line x1="0" y1="80"  x2="390" y2="80"  stroke="white" strokeWidth="8" />
       <line x1="0" y1="175" x2="390" y2="175" stroke="white" strokeWidth="8" />
@@ -109,13 +109,13 @@ function SchematicMap({ state, mapDestination = 'inditex' }: { state: TrackerSta
       <polyline
         points={`${car.x},${car.y} ${cfg.destX},${cfg.destY}`}
         fill="none"
-        stroke="oklch(0.55 0.18 162)"
+        style={{ stroke: 'var(--color-accent)' }}
         strokeWidth="3"
         strokeDasharray="8 4"
         strokeLinecap="round"
       />
 
-      <circle cx={cfg.destX} cy={cfg.destY} r="10" fill="oklch(0.20 0.10 264)" />
+      <circle cx={cfg.destX} cy={cfg.destY} r="10" style={{ fill: 'var(--color-primary)' }} />
       <circle cx={cfg.destX} cy={cfg.destY} r="4"  fill="white" />
       <rect
         x={cfg.destX - labelWidth / 2}
@@ -123,7 +123,7 @@ function SchematicMap({ state, mapDestination = 'inditex' }: { state: TrackerSta
         width={labelWidth}
         height={20}
         rx="4"
-        fill="oklch(0.20 0.10 264)"
+        style={{ fill: 'var(--color-primary)' }}
       />
       <text
         x={cfg.destX}
@@ -137,11 +137,11 @@ function SchematicMap({ state, mapDestination = 'inditex' }: { state: TrackerSta
         {cfg.label}
       </text>
 
-      <circle cx={car.x} cy={car.y} r="10" fill="oklch(0.55 0.18 162)" opacity="0.2">
+      <circle cx={car.x} cy={car.y} r="10" style={{ fill: 'var(--color-accent)' }} opacity="0.2">
         <animate attributeName="r"       values="10;18;10" dur="2s" repeatCount="indefinite" />
         <animate attributeName="opacity" values="0.2;0;0.2" dur="2s" repeatCount="indefinite" />
       </circle>
-      <circle cx={car.x} cy={car.y} r="6" fill="oklch(0.55 0.18 162)" />
+      <circle cx={car.x} cy={car.y} r="6" style={{ fill: 'var(--color-accent)' }} />
     </svg>
   )
 }

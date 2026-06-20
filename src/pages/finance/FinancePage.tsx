@@ -58,7 +58,7 @@ const EXPENSES = [
     badge: 'Verificado',
     badgeBg: 'var(--success-muted)',
     badgeColor: 'var(--success-text)',
-    avatarColor: 'oklch(0.65 0.18 320)',
+    avatarColor: 'var(--color-chart-4)',
   },
 ]
 

@@ -39,7 +39,7 @@ function QrSvg() {
               y={y * cell + padding}
               width={cell - 1}
               height={cell - 1}
-              fill="oklch(0.20 0.10 264)"
+              style={{ fill: 'var(--color-primary)' }}
               rx="1"
             />
           ) : null
@@ -89,8 +89,7 @@ export function QRInditexPage() {
           </span>
         </div>
 
-        <div className="w-full rounded-xl border border-white/10 p-4 mt-6 flex flex-col gap-3"
-          style={{ background: 'oklch(1 0 0 / 0.08)' }}>
+        <div className="w-full rounded-xl border border-white/10 p-4 mt-6 flex flex-col gap-3 bg-white/[0.08]">
           <div className="flex items-center gap-3">
             <Building2 size={16} strokeWidth={1.5} className="text-white/40 shrink-0" />
             <span className="font-sans text-sm text-white">Inditex Arteixo HQ</span>

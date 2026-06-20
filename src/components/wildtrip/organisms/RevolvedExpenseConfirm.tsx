@@ -125,7 +125,7 @@ export function RevolvedExpenseConfirm({
                 key={cat}
                 onClick={() => setCategory(cat)}
                 className={cn(
-                  'relative flex flex-col items-center gap-1.5 p-3 rounded-xl cursor-pointer transition-all duration-[180ms]',
+                  'relative flex flex-col items-center gap-1.5 p-3 rounded-xl cursor-pointer transition-all duration-[var(--duration-base)]',
                   category === cat
                     ? 'border-2 border-primary bg-primary/10'
                     : 'border border-border bg-background hover:bg-muted',

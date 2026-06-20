@@ -31,7 +31,7 @@ export function CheckoutPage() {
               Check-out completado
             </p>
           </div>
-          <p className="font-sans text-xs mt-1.5" style={{ color: 'oklch(var(--success) / 0.7)' }}>
+          <p className="font-sans text-xs mt-1.5 text-success/70">
             Factura enviada a TravelPerk · Jungle Group
           </p>
         </div>

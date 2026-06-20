@@ -67,7 +67,7 @@ export function ExpenseItem({
       onClick={onClick}
       onKeyDown={onClick ? (e) => e.key === 'Enter' && onClick() : undefined}
       className={cn(
-        'flex items-center gap-3 rounded-xl px-3 py-3 transition-all duration-[180ms]',
+        'flex items-center gap-3 rounded-xl px-3 py-3 transition-all duration-[var(--duration-base)]',
         onClick && 'cursor-pointer hover:bg-muted/50',
         isPendingTicket
           ? 'border border-warning bg-warning-muted/30'

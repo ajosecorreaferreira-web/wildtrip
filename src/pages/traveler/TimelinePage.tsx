@@ -148,7 +148,7 @@ export function TimelinePage() {
             key={d.date}
             onClick={() => setActiveDay(idx)}
             className={cn(
-              'shrink-0 px-3 py-1.5 rounded-full font-sans text-xs font-semibold transition-all duration-[180ms]',
+              'shrink-0 px-3 py-1.5 rounded-full font-sans text-xs font-semibold transition-all duration-[var(--duration-base)]',
               activeDay === idx
                 ? 'bg-primary text-primary-foreground'
                 : 'bg-muted text-muted-foreground hover:bg-secondary',

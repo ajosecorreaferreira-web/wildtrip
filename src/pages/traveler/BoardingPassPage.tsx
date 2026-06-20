@@ -29,7 +29,7 @@ function QrSvg() {
               y={y * cell + 4}
               width={cell - 1}
               height={cell - 1}
-              fill="oklch(0.20 0.10 264)"
+              style={{ fill: 'var(--color-primary)' }}
               rx="1"
             />
           ) : null
@@ -168,7 +168,7 @@ export function BoardingPassPage() {
   )
 
   return (
-    <div className="h-screen bg-[oklch(0.08_0.04_264)] flex flex-col max-w-md mx-auto">
+    <div className="h-screen bg-navy-deep flex flex-col max-w-md mx-auto">
       <div className="flex-1 overflow-y-auto px-5">
         <div className="flex flex-col justify-center min-h-full py-6">
 
@@ -180,10 +180,7 @@ export function BoardingPassPage() {
             >
               ← Volver
             </button>
-            <p
-              className="font-sans text-[10px] font-semibold uppercase tracking-widest"
-              style={{ color: 'rgba(255,255,255,0.4)' }}
-            >
+            <p className="font-sans text-[10px] font-semibold uppercase tracking-widest text-white/40">
               Boarding pass
             </p>
           </div>

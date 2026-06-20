@@ -45,7 +45,7 @@ export function TripCard({
       onKeyDown={onClick ? (e) => e.key === 'Enter' && onClick() : undefined}
       className={cn(
         'rounded-xl bg-card border border-border px-4 py-4 flex flex-col gap-3',
-        'transition-all duration-[180ms]',
+        'transition-all duration-[var(--duration-base)]',
         onClick && 'cursor-pointer hover:shadow-md hover:border-primary/30',
         isNew && 'animate-success-pop',
       )}

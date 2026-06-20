@@ -77,7 +77,7 @@ function RequestSheet({ onClose }: { onClose: () => void }) {
               key={c}
               onClick={() => setAmount(c)}
               className={cn(
-                'flex-1 py-2.5 rounded-xl font-sans text-sm font-semibold transition-all duration-[180ms]',
+                'flex-1 py-2.5 rounded-xl font-sans text-sm font-semibold transition-all duration-[var(--duration-base)]',
                 amount === c
                   ? 'border-2 border-primary bg-secondary text-foreground'
                   : 'border border-border bg-card text-muted-foreground'
@@ -156,7 +156,7 @@ function SummaryView() {
       </div>
 
       <main className="flex-1 overflow-y-auto pb-nav px-4">
-        <div className="rounded-2xl p-5 mt-4" style={{ backgroundColor: 'oklch(0.14 0.08 264)' }}>
+        <div className="rounded-2xl p-5 mt-4 bg-navy-mid">
           <p className="font-sans text-xs font-semibold uppercase tracking-wide text-primary-foreground/50">
             Gastado
           </p>

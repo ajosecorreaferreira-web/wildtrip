@@ -42,7 +42,7 @@ export function HotelCard({
       onClick={onClick}
       onKeyDown={onClick ? (e) => e.key === 'Enter' && onClick() : undefined}
       className={cn(
-        'relative rounded-xl bg-card px-4 py-4 transition-all duration-[180ms]',
+        'relative rounded-xl bg-card px-4 py-4 transition-all duration-[var(--duration-base)]',
         onClick && 'cursor-pointer',
         selected
           ? 'border-2 border-primary shadow-md'
